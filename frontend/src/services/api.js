@@ -1,10 +1,10 @@
-const BASE_URL = import.meta.VITE_API_URL || '/api'
-
+const BASE_URL = import.meta.env.VITE_API_URL || '/api'
+console.log('API URL:', import.meta.env.VITE_API_URL)
 const getHeaders = () => {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token')
     return {
         'Content-Type': 'application/json',
-        ...(token && { Autorization: `Bearer ${token}`})
+        ...(token && { Authorization: `Bearer ${token}`})
     }
 }
 

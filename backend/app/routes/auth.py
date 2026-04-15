@@ -20,12 +20,12 @@ def register():
     
     if db.session.execute(
         select(User).where(User.email == data["email"])
-    ).scalars_one_or_none():
+    ).scalar_one_or_none():
         return jsonify({"error": "Email already registered"}), 409
     
     if db.session.execute(
         select(User).where(User.username == data["username"])
-    ).scalars_one_or_none():
+    ).scalar_one_or_none():
         return jsonify({"error": "Username already taken"}), 409
     
     user = User(
@@ -48,7 +48,7 @@ def login():
     
     user = db.session.execute(
         select(User).where(User.email == data["email"])
-    ).scalars_one_or_none()
+    ).scalar_one_or_none()
     
     if not user or not user.check_password(data["password"]):
         return jsonify({"error": "Invalid credentials"}), 401
@@ -86,7 +86,7 @@ def update_info():
     if "username" in data:
         existing = db.session.execute(
             select(User).where(User.username == data["username"])
-        ).scalars_one_or_none()
+        ).scalar_one_or_none()
         if existing and existing.id != user.id:
             return jsonify({"error": "Username already taken"}), 409
         user.username = data["username"]
@@ -94,7 +94,7 @@ def update_info():
     if "email" in data:
         existing = db.session.execute(
             select(User).where(User.email == data["email"])
-        ).scalars_one_or_none()
+        ).scalar_one_or_none()
         if existing and existing.id != user.id:
             return jsonify({"error": "Email already taken"}), 409
         user.email = data["email"]
