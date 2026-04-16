@@ -113,6 +113,7 @@ def change_password():
     user_id = get_jwt_identity()
     user = db.session.get(User, user_id)
     data = request.get_json()
+    print("data recibida:", data)
     
     if not user.check_password(data.get("current_password", "")):
         return jsonify({"error": "Current password is incorrect"}), 401

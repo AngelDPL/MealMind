@@ -38,10 +38,11 @@ export const put = async (endpoint, body) => {
     return handleResponse(res)
 }
 
-export const patch = async (endpoint) => {
+export const patch = async (endpoint, body) => {
     const res = await fetch(`${BASE_URL}${endpoint}`, {
         method: 'PATCH',
-        headers: getHeaders()
+        headers: getHeaders(),
+        body: body ? JSON.stringify(body) : undefined,
     })
     return handleResponse(res)
 }

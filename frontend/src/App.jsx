@@ -9,6 +9,7 @@ import Recipes from './pages/Recipes/Recipes'
 import MealPlanner from './pages/MealPlanner/MealPlanner'
 import MealPlanDetail from './pages/MealPlanDetail/MealPlanDetail'
 import Shopping from './pages/Shopping/Shopping'
+import Profile from './pages/Profile/Profile'
 
 
 const PublicRoute = ({ children }) => {
@@ -47,6 +48,7 @@ const App = () => {
 						<Route path="/meal-planner" element={<PrivateRoutes><MealPlanner /></PrivateRoutes>} />
 						<Route path="/meal-planner/:planId" element={<PrivateRoutes><MealPlanDetail /></PrivateRoutes>} />
 						<Route path="/shopping/:planId" element={<PrivateRoutes><Shopping /></PrivateRoutes>} />
+						<Route path="/profile" element={<PrivateRoutes><Profile /></PrivateRoutes>} />
 					</Routes>
 				</main>
 			</div>
