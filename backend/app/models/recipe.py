@@ -7,7 +7,7 @@ class Ingredient(db.Model):
     __tablename__ = "ingredients"
     
     id: Mapped[int] = mapped_column(primary_key=True)
-    quatity: Mapped[float] = mapped_column()
+    quantity: Mapped[float] = mapped_column()
     recipe_id: Mapped[int] = mapped_column(ForeignKey("recipes.id"))
     food_id: Mapped[int] = mapped_column(ForeignKey("foods.id"))
     
@@ -16,19 +16,19 @@ class Ingredient(db.Model):
     
     @property
     def calories(self):
-        return round(self.food.calories * self.quatity / 100, 1)
+        return round(self.food.calories * self.quantity / 100, 1)
     
     @property
     def protein(self):
-        return round(self.food.protein * self.quatity / 100, 1)
+        return round(self.food.protein * self.quantity / 100, 1)
     
     @property
     def carbs(self):
-        return round(self.food.carbs * self.quatity / 100, 1)
+        return round(self.food.carbs * self.quantity / 100, 1)
     
     @property
     def fat(self):
-        return round(self.food.fat * self.quatity / 100, 1)
+        return round(self.food.fat * self.quantity / 100, 1)
     
     def to_dict(self):
         return {
