@@ -29,8 +29,6 @@ export const AuthProvider = ({ children }) => {
 
 
     const loginUser = (token, userData, remember = false, isFirstLogin = false) => {
-        console.log('token:', token)
-        console.log('remember:', remember)
         if (remember) {
             localStorage.setItem('token', token)
         } else {

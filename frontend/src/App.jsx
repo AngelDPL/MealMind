@@ -5,6 +5,7 @@ import { useAuth } from "./context/AuthContext"
 import Navbar from './components/Navbar/Navbar'
 import Login from './pages/Login/Login'
 import Register from './pages/Register/Register'
+import Recipes from './pages/Recipes/Recipes'
 
 
 const PublicRoute = ({ children }) => {
@@ -39,7 +40,7 @@ const App = () => {
 						<Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
 						<Route path="*" element={<Navigate to="/login" />} />
 						<Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
-						<Route path="/recipes" element={<PrivateRoutes><div className="text-white p-8">Recipes coming soon</div></PrivateRoutes>} />
+						<Route path="/recipes" element={<PrivateRoutes><Recipes /></PrivateRoutes>} />
 					</Routes>
 				</main>
 			</div>
