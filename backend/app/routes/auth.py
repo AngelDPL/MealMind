@@ -63,7 +63,7 @@ def login():
     token = create_access_token(identity=str(user.id))
     
     return jsonify({
-        "access token": token,
+        "access_token": token,
         "user": user.to_dict(),
         "first_login": is_first
     }), 200

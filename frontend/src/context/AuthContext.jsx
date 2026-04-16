@@ -10,14 +10,14 @@ export const AuthProvider = ({ children }) => {
     const [firstLogin, setFirstLogin] = useState(false)
 
 
-    useEffect(()=>{
+    useEffect(() => {
         const init = async () => {
             const token = localStorage.getItem('token') || sessionStorage.getItem('token')
             if (token) {
                 try {
                     const userData = await getMe()
                     setUser(userData)
-                }catch {
+                } catch {
                     localStorage.removeItem('token')
                     sessionStorage.removeItem('token')
                 }
@@ -29,9 +29,11 @@ export const AuthProvider = ({ children }) => {
 
 
     const loginUser = (token, userData, remember = false, isFirstLogin = false) => {
-        if (remember){
+        console.log('token:', token)
+        console.log('remember:', remember)
+        if (remember) {
             localStorage.setItem('token', token)
-        }else {
+        } else {
             sessionStorage.setItem('token', token)
         }
         setUser(userData)
