@@ -1,6 +1,7 @@
 from flask import Flask
 from .extensions import db, jwt, cors, migrate
 from config import Config
+from flask_cors import CORS
 
 def create_app():
     app = Flask(__name__)
@@ -8,12 +9,7 @@ def create_app():
     
     db.init_app(app)
     jwt.init_app(app)
-    cors.init_app(app, resources={r"/api/*": {"origins": [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "https://meal-mind-1vbg6qf97-angeldpls-projects.vercel.app",
-    "https://*.vercel.app",
-    ]}})
+    cors.init_app(app, resources={r"/api/*": {"origins": "*"}})
     
     migrate.init_app(app, db)
     
