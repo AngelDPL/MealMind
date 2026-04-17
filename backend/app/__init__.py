@@ -11,7 +11,10 @@ def create_app():
     cors.init_app(app, resources={r"/api/*": {"origins": [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-]}})
+    "https://meal-mind-1vbg6qf97-angeldpls-projects.vercel.app",
+    "https://*.vercel.app",
+    ]}})
+    
     migrate.init_app(app, db)
     
     from .routes.auth import auth_bp
