@@ -27,20 +27,12 @@ const PrivateRoutes = ({ children }) => {
 
 const App = () => {
 	return (
-		<div
-			className="min-h-screen relative"
-			style={{
-				backgroundImage: 'url(https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600)',
-				backgroundSize: 'cover',
-				backgroundPosition: 'center',
-				minHeight: '100dvh',
-			}}
-		>
-			<div className="absolute inset-0 z-0" />
-			<div className="relative z-10 min-h-screen flex flex-col">
-				<Navbar />
-				<main className="flex-1">
-					<Routes>
+		<div className="min-h-screen relative">
+            <div className="fixed inset-0 bg-black/40 z-0" />
+            <div className="relative z-10 min-h-screen flex flex-col">
+                <Navbar />
+                <main className="flex-1">
+                    <Routes>
 						<Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
 						<Route path="*" element={<Navigate to="/login" />} />
 						<Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
