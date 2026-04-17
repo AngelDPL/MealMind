@@ -1,6 +1,7 @@
 STARTER_RECIPES = [
     {
         "name": "Chicken with rice",
+        "name_es": "Pollo con arroz",
         "description": "Classic high protein meal",
         "ingredients": [
             ("Pechuga de pollo", 200),
@@ -12,6 +13,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Tuna pasta",
+        "name_es": "Pasta con atún",
         "description": "Quick and easy pasta with tuna",
         "ingredients": [
             ("Pasta seca", 100),
@@ -23,6 +25,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Scrambled eggs with vegetables",
+        "name_es": "Huevos revueltos con verduras",
         "description": "Protein-packed breakfast",
         "ingredients": [
             ("Huevo entero", 150),
@@ -34,6 +37,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Greek salad",
+        "name_es": "Ensalada griega",
         "description": "Fresh Mediterranean salad",
         "ingredients": [
             ("Tomate", 150),
@@ -45,6 +49,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Salmon with broccoli",
+        "name_es": "Salmón con brócoli",
         "description": "Omega-3 rich dinner",
         "ingredients": [
             ("Salmón", 200),
@@ -56,6 +61,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Lentil soup",
+        "name_es": "Sopa de lentejas",
         "description": "Warm and nutritious soup",
         "ingredients": [
             ("Lentejas", 150),
@@ -68,6 +74,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Turkey sandwich",
+        "name_es": "Sándwich de pavo",
         "description": "Light and protein-rich lunch",
         "ingredients": [
             ("Pan integral", 80),
@@ -79,6 +86,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Avocado toast",
+        "name_es": "Tostada de aguacate",
         "description": "Trendy and nutritious breakfast",
         "ingredients": [
             ("Pan integral", 80),
@@ -90,6 +98,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Beef stir fry",
+        "name_es": "Salteado de ternera",
         "description": "Quick and tasty beef with vegetables",
         "ingredients": [
             ("Filete de ternera", 180),
@@ -102,6 +111,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Chickpea curry",
+        "name_es": "Curry de garbanzos",
         "description": "Vegetarian Indian inspired dish",
         "ingredients": [
             ("Garbanzos", 150),
@@ -114,6 +124,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Oatmeal with banana",
+        "name_es": "Avena con plátano",
         "description": "Energy-packed breakfast",
         "ingredients": [
             ("Avena", 80),
@@ -124,6 +135,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Grilled pork loin",
+        "name_es": "Lomo de cerdo a la plancha",
         "description": "Simple and tasty grilled meat",
         "ingredients": [
             ("Lomo de cerdo", 200),
@@ -135,6 +147,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Quinoa bowl",
+        "name_es": "Bowl de quinoa",
         "description": "Healthy grain bowl with vegetables",
         "ingredients": [
             ("Quinoa", 100),
@@ -147,6 +160,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Tuna salad",
+        "name_es": "Ensalada de atún",
         "description": "Light and refreshing salad",
         "ingredients": [
             ("Atún en lata", 150),
@@ -159,6 +173,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Vegetable omelette",
+        "name_es": "Tortilla de verduras",
         "description": "Classic French omelette with vegetables",
         "ingredients": [
             ("Huevo entero", 180),
@@ -170,6 +185,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Baked cod",
+        "name_es": "Bacalao al horno",
         "description": "Light and healthy baked fish",
         "ingredients": [
             ("Bacalao fresco", 200),
@@ -181,6 +197,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Pasta bolognese",
+        "name_es": "Pasta boloñesa",
         "description": "Classic Italian meat sauce pasta",
         "ingredients": [
             ("Pasta seca", 100),
@@ -193,6 +210,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Greek yogurt with berries",
+        "name_es": "Yogur griego con frutos rojos",
         "description": "Simple and healthy breakfast",
         "ingredients": [
             ("Yogur griego", 200),
@@ -203,6 +221,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Stuffed peppers",
+        "name_es": "Pimientos rellenos",
         "description": "Colorful and nutritious dinner",
         "ingredients": [
             ("Pimiento rojo", 200),
@@ -214,6 +233,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Chicken caesar salad",
+        "name_es": "Ensalada césar con pollo",
         "description": "Classic caesar with grilled chicken",
         "ingredients": [
             ("Pechuga de pollo", 150),
@@ -225,6 +245,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Tofu stir fry",
+        "name_es": "Salteado de tofu",
         "description": "Healthy vegetarian stir fry",
         "ingredients": [
             ("Tofu", 200),
@@ -237,6 +258,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Beef burger",
+        "name_es": "Hamburguesa de ternera",
         "description": "Homemade juicy burger",
         "ingredients": [
             ("Carne picada de ternera", 180),
@@ -249,6 +271,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Mushroom risotto",
+        "name_es": "Risotto de champiñones",
         "description": "Creamy Italian rice dish",
         "ingredients": [
             ("Arroz blanco", 100),
@@ -261,6 +284,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Sardine toast",
+        "name_es": "Tostada de sardinas",
         "description": "Quick omega-3 rich snack",
         "ingredients": [
             ("Pan integral", 80),
@@ -272,6 +296,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Sweet potato bowl",
+        "name_es": "Bowl de boniato",
         "description": "Nutritious and colorful bowl",
         "ingredients": [
             ("Boniato", 200),
@@ -284,6 +309,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Pork tenderloin with vegetables",
+        "name_es": "Solomillo de cerdo con verduras",
         "description": "Lean meat with roasted vegetables",
         "ingredients": [
             ("Solomillo de cerdo", 200),
@@ -296,6 +322,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Tuna stuffed avocado",
+        "name_es": "Aguacate relleno de atún",
         "description": "Low carb protein rich snack",
         "ingredients": [
             ("Aguacate", 150),
@@ -307,6 +334,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "White bean soup",
+        "name_es": "Sopa de alubias blancas",
         "description": "Hearty and filling soup",
         "ingredients": [
             ("Alubias blancas", 150),
@@ -319,6 +347,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Chicken fajitas",
+        "name_es": "Fajitas de pollo",
         "description": "Mexican inspired chicken wrap",
         "ingredients": [
             ("Pechuga de pollo", 180),
@@ -331,6 +360,7 @@ STARTER_RECIPES = [
     },
     {
         "name": "Fruit smoothie bowl",
+        "name_es": "Bowl de smoothie de frutas",
         "description": "Fresh and energizing breakfast",
         "ingredients": [
             ("Plátano", 100),

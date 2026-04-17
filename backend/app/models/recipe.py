@@ -46,19 +46,19 @@ class Ingredient(db.Model):
         
 class Recipe(db.Model):
     __tablename__ = "recipes"
-    
+
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(120))
+    name_es: Mapped[Optional[str]] = mapped_column(String(120))
     description: Mapped[Optional[str]] = mapped_column(Text)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-    
+
     ingredients = relationship("Ingredient", backref="recipe", lazy=True, cascade="all, delete-orphan")
-    
-    
+
     @property
     def calories(self):
         return round(sum(i.calories for i in self.ingredients), 1)
-    
+
     @property
     def protein(self):
         return round(sum(i.protein for i in self.ingredients), 1)
@@ -74,7 +74,8 @@ class Recipe(db.Model):
     def to_dict(self, lang='en'):
         return {
             "id": self.id,
-            "name": self.name,
+            "name": self.name_es if lang == 'es' and self.name_es else self.name,
+            "name_es": self.name_es,
             "description": self.description,
             "calories": self.calories,
             "protein": self.protein,

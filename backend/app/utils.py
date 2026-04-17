@@ -7,6 +7,7 @@ def create_starter_recipes(user_id):
     for r in STARTER_RECIPES:
         recipe = Recipe(
             name=r['name'],
+            name_es=r.get('name_es'),
             description=r['description'],
             user_id=user_id
         )
