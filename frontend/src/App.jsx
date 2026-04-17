@@ -27,12 +27,26 @@ const PrivateRoutes = ({ children }) => {
 
 const App = () => {
 	return (
-		<div className="min-h-screen relative">
-            <div className="fixed inset-0 bg-black/10 z-0" />
-            <div className="relative z-10 min-h-screen flex flex-col">
-                <Navbar />
-                <main className="flex-1">
-                    <Routes>
+		<>
+			<div
+				style={{
+					position: 'fixed',
+					top: 0,
+					left: 0,
+					width: '100%',
+					height: '100%',
+					backgroundImage: 'url(https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600)',
+					backgroundSize: 'cover',
+					backgroundPosition: 'center',
+					zIndex: -1,
+				}}
+			/>
+
+			<div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 0 }} />
+			<div style={{ position: 'relative', zIndex: 1, minHeight: '100dvh', display: 'flex', flexDirection: 'column' }}>
+				<Navbar />
+				<main className="flex-1">
+					<Routes>
 						<Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
 						<Route path="*" element={<Navigate to="/login" />} />
 						<Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
@@ -44,7 +58,7 @@ const App = () => {
 					</Routes>
 				</main>
 			</div>
-		</div>
+		</>
 	)
 }
 
