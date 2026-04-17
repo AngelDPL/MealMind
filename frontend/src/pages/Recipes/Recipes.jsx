@@ -84,6 +84,7 @@ const Recipes = () => {
 
     const filteredRecipes = recipes.filter(r =>
         r.name.toLowerCase().includes(search.toLowerCase()) ||
+        r.name_es?.toLowerCase().includes(search.toLowerCase()) ||
         r.description?.toLowerCase().includes(search.toLowerCase())
     )
 
