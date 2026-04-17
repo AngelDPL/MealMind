@@ -87,7 +87,7 @@ VITE_API_URL=http://localhost:5000/api
 
 ## Live demo
 
-🌐 [mealmind.vercel.app](https://mealmind.vercel.app)
+[MealMind](https://meal-mind-r2dihsick-angeldpls-projects.vercel.app)
 
 ---
 
