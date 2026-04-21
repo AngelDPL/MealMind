@@ -10,19 +10,11 @@ def create_app():
 
     db.init_app(app)
     jwt.init_app(app)
-    cors.init_app(
-        app,
-        resources={
-            r"/api/*": {
-                "origins": [
-                    "http://localhost:5173",
-                    "http://127.0.0.1:5173",
-                    "https://mealmind-frontend-ixxa.onrender.com",
-                    "https://meal-mind-i85o8rfrd-angeldpls-projects.vercel.app",
-                ]
-            }
-        },
-    )
+    cors.init_app(app, resources={r"/api/*": {"origins": [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://meal-mind-seven.vercel.app"
+    ]}})
     migrate.init_app(app, db)
     mail.init_app(app)
 
