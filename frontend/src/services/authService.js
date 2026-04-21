@@ -9,3 +9,9 @@ export const getMe = async () => get('/auth/me')
 export const updateInfo = async (data) => put('/auth/update', data)
 
 export const changePassword = async (data) => patch('/auth/change-password', data)
+
+export const requestEmailChange = async (data) => post('/auth/request-email-change', data)
+
+export const forgotPassword = async (data) => post('/auth/forgot-password', data)
+
+export const resetPassword = async (data) => post('/auth/reset-password', data)

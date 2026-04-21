@@ -3,10 +3,11 @@ import { useNavigate, Link } from 'react-router-dom'
 import { register } from '../../services/authService'
 
 const Register = () => {
-    const [form, setForm] = useState({ username: '', email: '', password: '' })
+    const [form, setForm] = useState({ username: '', email: '', password: '', confirm_password: '' })
     const [error, setError] = useState('')
     const [showModal, setShowModal] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
+    const [showConfirm, setShowConfirm] = useState(false)
     const [capsLock, setCapsLock] = useState(false)
     const [passwordFocused, setPasswordFocused] = useState(false)
 
@@ -18,6 +19,12 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         setError('')
+
+        if (form.password !== form.confirm_password) {
+            setError('Passwords do not match')
+            return
+        }
+
         try {
             await register(form)
             setShowModal(true)
@@ -30,6 +37,8 @@ const Register = () => {
         setShowModal(false)
         navigate('/login')
     }
+
+    const passwordsMatch = form.confirm_password && form.password === form.confirm_password
 
     return (
         <div
@@ -105,7 +114,40 @@ const Register = () => {
                             </button>
                         </div>
                         {capsLock && passwordFocused && (
-                            <p className="text-amber-500 text-xs mt-1">⚠️ Caps Lock is on</p>
+                            <p className="text-amber-500 text-md mt-1">Caps Lock is on</p>
+                        )}
+                    </div>
+
+                    <div>
+                        <label className="text-sm font-medium text-black mb-1 block">Confirm password</label>
+                        <div className="relative">
+                            <input
+                                type={showConfirm ? 'text' : 'password'}
+                                name="confirm_password"
+                                placeholder="••••••••"
+                                value={form.confirm_password}
+                                onChange={handleChange}
+                                onKeyDown={handleKeyDown}
+                                required
+                                className={`w-full px-4 py-2.5 pr-10 border rounded-xl text-sm bg-gray-50 focus:outline-none focus:bg-white transition ${form.confirm_password
+                                        ? passwordsMatch
+                                            ? 'border-green-400 focus:border-green-400'
+                                            : 'border-red-400 focus:border-red-400'
+                                        : 'border-gray-200 focus:border-indigo-400'
+                                    }`}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowConfirm(!showConfirm)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 bg-transparent border-none p-0 shadow-none"
+                            >
+                                {showConfirm ? '🫣' : '🥕'}
+                            </button>
+                        </div>
+                        {form.confirm_password && (
+                            <p className={`text-md mt-1 ${passwordsMatch ? 'text-green-500' : 'text-red-500'}`}>
+                                {passwordsMatch ? 'Passwords match' : 'Passwords do not match'}
+                            </p>
                         )}
                     </div>
 
@@ -131,13 +173,13 @@ const Register = () => {
                         <div className="text-5xl">🎉</div>
                         <h3 className="text-xl font-bold text-gray-800">Account created!</h3>
                         <p className="text-gray-500 text-sm leading-relaxed">
-                            Your account has been created. You can now sign in.
+                            Your account has been created. Check your email for your credentials.
                         </p>
                         <button
                             onClick={handleModalClose}
                             className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2.5 rounded-xl transition active:scale-95 border-none"
                         >
-                            Go to login 🚀
+                            Go to login
                         </button>
                     </div>
                 </div>

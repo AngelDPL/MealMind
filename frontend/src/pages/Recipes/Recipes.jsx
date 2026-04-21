@@ -94,7 +94,6 @@ const Recipes = () => {
             {firstLogin && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center px-4" style={{ background: 'rgba(0,0,0,0.6)' }}>
                     <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-sm text-center flex flex-col gap-4">
-                        <div className="text-5xl">👋</div>
                         <h3 className="text-xl font-bold text-gray-800">Welcome, {user.username}!</h3>
                         <p className="text-gray-500 text-sm leading-relaxed">
                             We've added <span className="font-semibold text-indigo-600">30 recipes</span> to get you started with macros already calculated.
@@ -107,7 +106,7 @@ const Recipes = () => {
                             onClick={() => setFirstLogin(false)}
                             className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2.5 rounded-xl transition active:scale-95 border-none"
                         >
-                            Let's go! 🚀
+                            Let's go!
                         </button>
                     </div>
                 </div>
@@ -251,7 +250,7 @@ const Recipes = () => {
                     placeholder="🔍 Search recipes..."
                     value={search}
                     onChange={e => setSearch(e.target.value)}
-                    className="w-full px-4 py-2.5 pr-10 rounded-xl border-none bg-white/20 backdrop-blur-md text-white placeholder-white/60 focus:outline-none focus:bg-white/30 transition text-sm"
+                    className="w-full px-4 py-2.5 pr-10 rounded-xl border-none bg-white/20 backdrop-blur-md text-white placeholder-white focus:outline-none focus:bg-white/30 transition text-sm"
                 />
                 {search && (
                     <button

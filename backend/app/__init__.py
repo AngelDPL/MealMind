@@ -1,18 +1,30 @@
 from flask import Flask
-from .extensions import db, jwt, cors, migrate
+from .extensions import db, jwt, cors, migrate, mail
 from config import Config
 from flask_cors import CORS
+
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-    
+
     db.init_app(app)
     jwt.init_app(app)
-    cors.init_app(app, resources={r"/api/*": {"origins": "*"}})
-    
+    cors.init_app(
+        app,
+        resources={
+            r"/api/*": {
+                "origins": [
+                    "http://localhost:5173",
+                    "http://127.0.0.1:5173",
+                    "https://mealmind-frontend-ixxa.onrender.com",
+                ]
+            }
+        },
+    )
     migrate.init_app(app, db)
-    
+    mail.init_app(app)
+
     from .routes.auth import auth_bp
     from .routes.recipes import recipes_bp
     from .routes.meal_plans import meal_plan_bp
@@ -26,7 +38,16 @@ def create_app():
     app.register_blueprint(foods_bp, url_prefix="/api/foods")
 
     with app.app_context():
-        from .models import User, Food, Recipe, Ingredient, MealPlan, MealPlanEntry, ShoppingItem
+        from .models import (
+            User,
+            Food,
+            Recipe,
+            Ingredient,
+            MealPlan,
+            MealPlanEntry,
+            ShoppingItem,
+        )
+
         db.create_all()
 
     return app

@@ -4,6 +4,11 @@ from sqlalchemy import select
 from app.extensions import db
 from app.models import User
 from app.utils import create_starter_recipes
+from app.emails import (
+    send_welcome_email,
+    send_email_change_confirmation,
+    send_password_reset_email
+)
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -18,6 +23,9 @@ def register():
     
     if not validate_fields(data, ["email", "username", "password"]):
         return jsonify({"error": "Missing required fields"}), 400
+    
+    if data["password"] != data["confirm_password"]:
+        return jsonify({"error": "Password do not match"}), 400
     
     if db.session.execute(
         select(User).where(User.email == data["email"])
@@ -40,7 +48,12 @@ def register():
     
     create_starter_recipes(user.id)
     
-    return jsonify({"Message": "User created successfully", "user": user.to_dict()}), 201
+    try:
+        send_welcome_email(user.email, user.username, data["password"])
+    except Exception as e:
+        print(f"[EMAIL ERROR] {e}")
+
+    return jsonify({"message": "User created successfully", "user": user.to_dict()}), 201
 
 
 @auth_bp.route("/login", methods=["POST"])
@@ -80,31 +93,60 @@ def me():
     return jsonify(user.to_dict()), 200
 
 
-@auth_bp.route("/update", methods=["PUT"])
+@auth_bp.route("/request-email-change", methods=["POST"])
 @jwt_required()
-def update_info():
+def reques_email_change():
     user_id = get_jwt_identity()
     user = db.session.get(User, user_id)
     data = request.get_json()
+    print("DATA RECIBIDA:", data)
+    print("USER:", user.email)
+    new_email = data.get("new_email")
     
-    if "username" in data:
-        existing = db.session.execute(
-            select(User).where(User.username == data["username"])
-        ).scalar_one_or_none()
-        if existing and existing.id != user.id:
-            return jsonify({"error": "Username already taken"}), 409
-        user.username = data["username"]
+    if not new_email:
+        return jsonify({"error": "New email is required"}), 400
+    
+    if not user.check_password(data.get("password", "")):
+        return jsonify({"error": "Incorrect password"}), 401
+    
+    if db.session.execute(
+        select(User).where(User.email == new_email)
+    ).scalar_one_or_none():
+        jsonify({"error": "Email already in use"}), 409
         
-    if "email" in data:
-        existing = db.session.execute(
-            select(User).where(User.email == data["email"])
-        ).scalar_one_or_none()
-        if existing and existing.id != user.id:
-            return jsonify({"error": "Email already taken"}), 409
-        user.email = data["email"]
-        
+    user.pending_email = new_email
+    token = user.generate_email_token()
     db.session.commit()
-    return jsonify({"user": user.to_dict()}), 200
+    
+    try:
+        send_email_change_confirmation(new_email, user.username, token)
+    except Exception as e:
+        print(f"[EMAIL ERROR] {e}")
+        return jsonify({"error": "Could not send confirmation email"}), 500
+    
+    return jsonify({"message": "Confirmation email snet to new address"}), 200
+
+
+@auth_bp.route("/confirm-email", methods=["GET"])
+def confirm_email():
+    token = request.args.get("token")
+    
+    if not token:
+        return jsonify({"error": "Token not provided"}), 400
+    
+    user = db.session.execute(
+        select(User).where(User.email_confirm_token == token)
+    ).scalar_one_or_none()
+    
+    if not user or not user.pending_email:
+        return jsonify({"error": "Invalid or expired token"})
+    
+    user.email = user.pending_email
+    user.pending_email = None
+    user.email_confirm_token = None
+    db.session.commit()
+    
+    return jsonify({"message": "Email updated successfully"}), 200
 
 
 @auth_bp.route("/change-password", methods=["PATCH"])
@@ -118,6 +160,49 @@ def change_password():
     if not user.check_password(data.get("current_password", "")):
         return jsonify({"error": "Current password is incorrect"}), 401
     
+    if data.get("new_password") != data.get("confirm_password"):
+        return jsonify({"error": "Password do not match"}), 400
+    
     user.set_password(data["new_password"])
     db.session.commit()
     return jsonify({"message": "Password updated successfully"}), 200
+
+
+@auth_bp.route("/forgot-password", methods=["POST"])
+def forgot_password():
+    data = request.get_json()
+    user = db.session.execute(
+        select(User).where(User.email == data.get("email"))
+    ).scalar_one_or_none()
+    
+    if user:
+        token = user.generate_reset_token()
+        db.session.commit()
+        try:
+            send_password_reset_email(user.email, user.username, token)
+        except Exception as e:
+            print(f"[EMAIL ERROR] {e}")
+            
+    return jsonify({"message": "If that email exists, you will receive a reset link"}), 200
+
+
+@auth_bp.route("/reset-password", methods=["POST"])
+def reset_password():
+    data = request.get_json()
+    token = data.get("token")
+    
+    user = db.session.execute(
+        select(User).where(User.password_reset_token == token)
+    ).scalar_one_or_none()
+    
+    if not user:
+        return jsonify({"error": "Invalid or expired token"}), 400
+    
+    if data.get("new_password") != data.get("confirm_password"):
+        return jsonify({"error": "Password do not match"}), 400
+    
+    user.set_password(data["new_password"])
+    user.password_reset_token = None
+    db.session.commit()
+    
+    return jsonify({"message": "Password reset successfully"}), 200 

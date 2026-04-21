@@ -10,6 +10,10 @@ import MealPlanner from './pages/MealPlanner/MealPlanner'
 import MealPlanDetail from './pages/MealPlanDetail/MealPlanDetail'
 import Shopping from './pages/Shopping/Shopping'
 import Profile from './pages/Profile/Profile'
+import Landing from './pages/Landing/Landing'
+import ConfirmEmail from './pages/ConfirmEmail/ConfirmEmail'
+import ForgotPassword from './pages/ForgotPassword/ForgotPassword'
+import ResetPassword from './pages/ResetPassword/ResetPassword'
 
 
 const PublicRoute = ({ children }) => {
@@ -41,14 +45,18 @@ const App = () => {
 				<Navbar />
 				<main className="flex-1">
 					<Routes>
+						<Route path="/" element={<PublicRoute><Landing /></PublicRoute>} />
 						<Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
-						<Route path="*" element={<Navigate to="/login" />} />
 						<Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
 						<Route path="/recipes" element={<PrivateRoutes><Recipes /></PrivateRoutes>} />
 						<Route path="/meal-planner" element={<PrivateRoutes><MealPlanner /></PrivateRoutes>} />
 						<Route path="/meal-planner/:planId" element={<PrivateRoutes><MealPlanDetail /></PrivateRoutes>} />
 						<Route path="/shopping/:planId" element={<PrivateRoutes><Shopping /></PrivateRoutes>} />
 						<Route path="/profile" element={<PrivateRoutes><Profile /></PrivateRoutes>} />
+						<Route path="*" element={<Navigate to="/" />} />
+						<Route path="/confirm-email" element={<ConfirmEmail />} />
+						<Route path="/forgot-password" element={<ForgotPassword />} />
+						<Route path="/reset-password" element={<ResetPassword />} />
 					</Routes>
 				</main>
 			</div>
