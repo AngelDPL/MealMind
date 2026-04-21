@@ -52,6 +52,7 @@ class Recipe(db.Model):
     name_es: Mapped[Optional[str]] = mapped_column(String(120))
     description: Mapped[Optional[str]] = mapped_column(Text)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    description_es: Mapped[Optional[str]] = mapped_column(Text)
 
     ingredients = relationship("Ingredient", backref="recipe", lazy=True, cascade="all, delete-orphan")
 
@@ -76,7 +77,8 @@ class Recipe(db.Model):
             "id": self.id,
             "name": self.name_es if lang == 'es' and self.name_es else self.name,
             "name_es": self.name_es,
-            "description": self.description,
+            "description": self.description_es if lang == 'es' and self.description_es else self.description,
+            "description_es": self.description_es,
             "calories": self.calories,
             "protein": self.protein,
             "carbs": self.carbs,

@@ -12,10 +12,11 @@ recipes_bp = Blueprint("recipes", __name__)
 @jwt_required()
 def get_recipes():
     user_id = get_jwt_identity()
+    lang = request.args.get("lang", "en")
     recipes = db.session.execute(
         select(Recipe).where(Recipe.user_id == user_id)
     ).scalars().all()
-    return jsonify([r.to_dict() for r in recipes]), 200
+    return jsonify([r.to_dict(lang=lang) for r in recipes]), 200
 
 
 @recipes_bp.route("/", methods=["POST"])

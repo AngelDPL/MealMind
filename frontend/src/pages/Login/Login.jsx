@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { login } from '../../services/authService'
 import { useAuth } from '../../context/AuthContext'
+import useLang from '../../hooks/useLang'
 
 const Login = () => {
     const [form, setForm] = useState({ email: '', password: '' })
@@ -13,9 +14,9 @@ const Login = () => {
 
     const { loginUser } = useAuth()
     const navigate = useNavigate()
+    const lang = useLang()
 
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
-
     const handleKeyDown = (e) => setCapsLock(e.getModifierState('CapsLock'))
 
     const handleSubmit = async (e) => {
@@ -40,11 +41,12 @@ const Login = () => {
             }}
         >
             <div className="absolute inset-0" />
-
             <div className="relative z-10 bg-white/80 rounded-2xl shadow-2xl p-8 w-full max-w-md">
                 <div className="text-center mb-8">
                     <h2 className="text-2xl font-bold text-black">MealMind</h2>
-                    <p className="text-black text-sm mt-1">Plan your meals with intelligence.</p>
+                    <p className="text-black text-md mt-1">
+                        {lang === 'es' ? 'Planifica tus comidas con inteligencia.' : 'Plan your meals with intelligence.'}
+                    </p>
                 </div>
 
                 {error && (
@@ -68,7 +70,9 @@ const Login = () => {
                     </div>
 
                     <div>
-                        <label className="text-sm font-medium text-black mb-1 block">Password</label>
+                        <label className="text-sm font-medium text-black mb-1 block">
+                            {lang === 'es' ? 'Contraseña' : 'Password'}
+                        </label>
                         <div className="relative">
                             <input
                                 type={showPassword ? 'text' : 'password'}
@@ -91,7 +95,9 @@ const Login = () => {
                             </button>
                         </div>
                         {capsLock && passwordFocused && (
-                            <p className="text-amber-500 text-xs mt-1">⚠️ Caps Lock is on</p>
+                            <p className="text-amber-500 text-xs mt-1">
+                                ⚠️ {lang === 'es' ? 'Bloq Mayús activado' : 'Caps Lock is on'}
+                            </p>
                         )}
                     </div>
 
@@ -102,12 +108,14 @@ const Login = () => {
                             onChange={e => setRemember(e.target.checked)}
                             className="w-4 h-4 accent-indigo-500"
                         />
-                        <span className="text-sm text-black">Remember me</span>
+                        <span className="text-sm text-black">
+                            {lang === 'es' ? 'Recuérdame' : 'Remember me'}
+                        </span>
                     </label>
 
                     <div className="flex justify-end">
                         <Link to="/forgot-password" className="text-md text-indigo-500 hover:underline">
-                            Forgot your password?
+                            {lang === 'es' ? '¿Olvidaste tu contraseña?' : 'Forgot your password?'}
                         </Link>
                     </div>
 
@@ -115,14 +123,14 @@ const Login = () => {
                         type="submit"
                         className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2.5 rounded-xl transition active:scale-95 border-none"
                     >
-                        Sign in
+                        {lang === 'es' ? 'Iniciar sesión' : 'Sign in'}
                     </button>
                 </form>
 
                 <p className="text-center text-md text-black mt-6">
-                    Don't have an account?{' '}
+                    {lang === 'es' ? '¿No tienes cuenta? ' : "Don't have an account? "}
                     <Link to="/register" className="text-indigo-500 font-semibold hover:underline">
-                        Sign up
+                        {lang === 'es' ? 'Regístrate' : 'Sign up'}
                     </Link>
                 </p>
             </div>

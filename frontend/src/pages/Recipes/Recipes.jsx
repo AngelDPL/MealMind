@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { getRecipes, createRecipe, deleteRecipe } from '../../services/recipeService'
 import { useAuth } from '../../context/AuthContext'
 import FoodSearch from '../../components/ui/FoodSearch'
+import useLang from '../../hooks/useLang'
 
 const Recipes = () => {
 
@@ -14,6 +15,7 @@ const Recipes = () => {
     const [search, setSearch] = useState('')
     const [showForm, setShowForm] = useState(false)
     const { firstLogin, setFirstLogin, user } = useAuth()
+    const lang = useLang()
 
     useEffect(() => {
         fetchRecipes()
@@ -21,7 +23,7 @@ const Recipes = () => {
 
     const fetchRecipes = async () => {
         try {
-            const data = await getRecipes()
+            const data = await getRecipes(lang)
             setRecipes(data)
         } catch (err) {
             setError(err.message)
@@ -94,26 +96,35 @@ const Recipes = () => {
             {firstLogin && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center px-4" style={{ background: 'rgba(0,0,0,0.6)' }}>
                     <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-sm text-center flex flex-col gap-4">
-                        <h3 className="text-xl font-bold text-gray-800">Welcome, {user.username}!</h3>
+                        <h3 className="text-xl font-bold text-gray-800">
+                            {lang === 'es' ? `¡Bienvenido, ${user.username}!` : `Welcome, ${user.username}!`}
+                        </h3>
                         <p className="text-gray-500 text-sm leading-relaxed">
-                            We've added <span className="font-semibold text-indigo-600">30 recipes</span> to get you started with macros already calculated.
+                            {lang === 'es'
+                                ? <>Hemos añadido <span className="font-semibold text-indigo-600">30 recetas</span> para que empieces con los macros ya calculados.</>
+                                : <>We've added <span className="font-semibold text-indigo-600">30 recipes</span> to get you started with macros already calculated.</>
+                            }
                         </p>
-                        <div className="bg-indigo-50 rounded-xl px-4 py-3">
+                        <div className="bg-indigo-50 rounded-xl px-4 py-3 flex flex-col items-center gap-1">
                             <span className="text-2xl">🍽️</span>
-                            <p className="text-indigo-600 text-sm font-medium mt-1">Start planning your weekly menu!</p>
+                            <p className="text-indigo-600 text-sm font-medium">
+                                {lang === 'es' ? '¡Empieza a planificar tu menú semanal!' : 'Start planning your weekly menu!'}
+                            </p>
                         </div>
                         <button
                             onClick={() => setFirstLogin(false)}
                             className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2.5 rounded-xl transition active:scale-95 border-none"
                         >
-                            Let's go!
+                            {lang === 'es' ? '¡Vamos!' : "Let's go!"}
                         </button>
                     </div>
                 </div>
             )}
 
             <div className="flex items-center justify-between mb-6">
-                <h1 className="text-2xl font-bold text-white drop-shadow">🍽️ My Recipes</h1>
+                <h1 className="text-2xl font-bold text-white drop-shadow">
+                    🍽️ {lang === 'es' ? 'Mis Recetas' : 'My Recipes'}
+                </h1>
                 <button
                     onClick={() => setShowForm(!showForm)}
                     className={`px-4 py-2 rounded-xl text-sm font-semibold transition active:scale-95 border-none shadow-md ${showForm
@@ -121,7 +132,10 @@ const Recipes = () => {
                         : 'bg-white text-indigo-600 hover:bg-indigo-50'
                         }`}
                 >
-                    {showForm ? '✕ Cancel' : '+ New recipe'}
+                    {showForm
+                        ? '✕ ' + (lang === 'es' ? 'Cancelar' : 'Cancel')
+                        : '+ ' + (lang === 'es' ? 'Nueva receta' : 'New recipe')
+                    }
                 </button>
             </div>
 
@@ -276,7 +290,9 @@ const Recipes = () => {
                     )}
                     {filteredRecipes.map(recipe => (
                         <div key={recipe.id} className="bg-white/80 backdrop-blur-md rounded-2xl shadow-md p-5 flex flex-col gap-3 hover:-translate-y-1 hover:shadow-lg transition">
-                            <h3 className="font-bold text-gray-800 text-lg">{recipe.name}</h3>
+                            <h3 className="font-bold text-gray-800 text-lg">
+                                {recipe.name}
+                            </h3>
                             {recipe.description && (
                                 <p className="text-gray-500 text-sm">{recipe.description}</p>
                             )}
@@ -295,7 +311,7 @@ const Recipes = () => {
                             {recipe.ingredients?.length > 0 && (
                                 <details className="text-sm">
                                     <summary className="cursor-pointer text-indigo-500 font-medium">
-                                        Ingredients ({recipe.ingredients.length})
+                                        {lang === 'es' ? `Ingredientes (${recipe.ingredients.length})` : `Ingredients (${recipe.ingredients.length})`}
                                     </summary>
                                     <ul className="mt-2 flex flex-col gap-1">
                                         {recipe.ingredients.map(ing => (
@@ -311,7 +327,7 @@ const Recipes = () => {
                                     onClick={() => handleDelete(recipe.id)}
                                     className="flex-1 bg-red-50 hover:bg-red-100 text-red-500 text-sm font-medium py-2 rounded-xl transition border-none shadow-none"
                                 >
-                                    🗑 Delete
+                                    {lang === 'es' ? '🗑 Eliminar' : '🗑 Delete'}
                                 </button>
                             </div>
                         </div>

@@ -12,45 +12,55 @@ shopping_bp = Blueprint("shopping", __name__)
 @jwt_required()
 def generate_shopping_list(plan_id):
     user_id = get_jwt_identity()
+    lang = request.args.get("lang", "en")
     plan = db.session.execute(
         select(MealPlan).where(MealPlan.id == plan_id, MealPlan.user_id == user_id)
     ).scalar_one_or_none()
-    
+
     if not plan:
         return jsonify({"error": "Plan not found"}), 404
-    
-    existing = db.session.execute(
-        select(ShoppingItem).where(ShoppingItem.meal_plan_id == plan_id)
-    ).scalars().all()
+
+    existing = (
+        db.session.execute(
+            select(ShoppingItem).where(ShoppingItem.meal_plan_id == plan_id)
+        )
+        .scalars()
+        .all()
+    )
     for item in existing:
         db.session.delete(item)
     db.session.flush()
-    
+
     items = {}
     for entry in plan.entries:
         if not entry.recipe:
             continue
         for ing in entry.recipe.ingredients:
-            key = (ing.food.name_en or ing.food.name, ing.food.unit)
+            if lang == "es":
+                name = ing.food.name
+            else:
+                name = ing.food.name_en or ing.food.name
+            key = (name, ing.food.unit)
             if key in items:
                 items[key] += ing.quantity
             else:
                 items[key] = ing.quantity
-                
+
     for (name, unit), quantity in items.items():
         item = ShoppingItem(
-            name=name,
-            quantity=round(quantity, 1),
-            unit=unit,
-            meal_plan_id=plan_id
+            name=name, quantity=round(quantity, 1), unit=unit, meal_plan_id=plan_id
         )
         db.session.add(item)
-    
+
     db.session.commit()
-    
-    result = db.session.execute(
-        select(ShoppingItem).where(ShoppingItem.meal_plan_id == plan_id)
-    ).scalars().all()
+
+    result = (
+        db.session.execute(
+            select(ShoppingItem).where(ShoppingItem.meal_plan_id == plan_id)
+        )
+        .scalars()
+        .all()
+    )
     return jsonify([i.to_dict() for i in result]), 201
 
 
@@ -65,9 +75,13 @@ def get_shopping_list(plan_id):
     if not plan:
         return jsonify({"error": "Plan not found"}), 404
 
-    items = db.session.execute(
-        select(ShoppingItem).where(ShoppingItem.meal_plan_id == plan_id)
-    ).scalars().all()
+    items = (
+        db.session.execute(
+            select(ShoppingItem).where(ShoppingItem.meal_plan_id == plan_id)
+        )
+        .scalars()
+        .all()
+    )
     return jsonify([i.to_dict() for i in items]), 200
 
 

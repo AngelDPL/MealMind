@@ -2,6 +2,7 @@ from flask import Flask
 from .extensions import db, jwt, cors, migrate, mail
 from config import Config
 from flask_cors import CORS
+from sqlalchemy import select as sa_select
 
 
 def create_app():
@@ -42,5 +43,16 @@ def create_app():
         )
 
         db.create_all()
+        
+        if not db.session.execute(sa_select(Food)).first():
+            from seed_foods import FOODS
+            for f in FOODS:
+                exists = db.session.execute(
+                    sa_select(Food).where(Food.name == f['name'])
+                ).scalar_one_or_none()
+                if not exists:
+                    db.session.add(Food(**f))
+            db.session.commit()
+            print("[SEED] Foods seeded automatically")
 
     return app
