@@ -77,8 +77,8 @@ const ForgotPassword = () => {
                             </button>
                         </form>
                         <p className="text-center text-sm text-gray-400 mt-4">
-                            <Link to="/login" className="text-indigo-500 hover:underline">
-                                {lang === 'es' ? '← Volver al login' : '← Back to login'}
+                            <Link to="/recipes" className="text-indigo-500 hover:underline">
+                                {lang === 'es' ? '← Volver a recetas' : '← Back to recipes'}
                             </Link>
                         </p>
                     </>

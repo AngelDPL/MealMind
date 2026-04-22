@@ -120,9 +120,6 @@ const Profile = () => {
             <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg p-6">
                 <h2 className="text-lg font-bold text-gray-800 mb-1">{tx.usernameSection}</h2>
                 <p className="text-sm text-gray-500 mb-4">@{user?.username}</p>
-                <div className="text-sm text-gray-400">
-                    {lang === 'es' ? 'El cambio de nombre de usuario no está disponible por ahora.' : 'Username changes are not available at the moment.'}
-                </div>
             </div>
 
             <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg p-6">

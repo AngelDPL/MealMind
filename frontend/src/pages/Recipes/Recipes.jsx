@@ -269,7 +269,7 @@ const Recipes = () => {
             <div className="relative mb-6">
                 <input
                     type="text"
-                    placeholder="🔍 Search recipes..."
+                    placeholder={lang === 'es' ? '🔍 Buscar ingredientes...' : '🔍 Search recipes...'}
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                     className="w-full px-4 py-2.5 pr-10 rounded-xl border-none bg-white/20 backdrop-blur-md text-white placeholder-white focus:outline-none focus:bg-white/30 transition text-sm"
