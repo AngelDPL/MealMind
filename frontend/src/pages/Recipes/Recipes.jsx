@@ -147,34 +147,42 @@ const Recipes = () => {
 
             {showForm && (
                 <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg p-6 mb-6">
-                    <h2 className="text-lg font-bold text-gray-800 mb-4">New recipe</h2>
+                    <h2 className="text-lg font-bold text-gray-800 mb-4">
+                        {lang === 'es' ? 'Nueva receta' : 'New recipe'}
+                    </h2>
                     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
 
                         <div>
-                            <label className="text-sm font-medium text-gray-700 mb-1 block">Recipe name</label>
+                            <label className="text-sm font-medium text-gray-700 mb-1 block">
+                                {lang === 'es' ? 'Nombre de la receta' : 'Recipe name'}
+                            </label>
                             <input
                                 value={form.name}
                                 onChange={e => setForm({ ...form, name: e.target.value })}
-                                placeholder="e.g. Chicken with rice"
+                                placeholder={lang === 'es' ? 'ej. Pollo con arroz' : 'e.g. Chicken with rice'}
                                 required
                                 className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm bg-gray-50 focus:outline-none focus:border-indigo-400 focus:bg-white transition"
                             />
                         </div>
 
                         <div>
-                            <label className="text-sm font-medium text-gray-700 mb-1 block">Description (optional)</label>
+                            <label className="text-sm font-medium text-gray-700 mb-1 block">
+                                {lang === 'es' ? 'Descripción (opcional)' : 'Description (optional)'}
+                            </label>
                             <textarea
                                 value={form.description}
                                 onChange={e => setForm({ ...form, description: e.target.value })}
-                                placeholder="Brief description..."
+                                placeholder={lang === 'es' ? 'Breve descripción...' : 'Brief description...'}
                                 rows={2}
                                 className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm bg-gray-50 focus:outline-none focus:border-indigo-400 focus:bg-white transition resize-none"
                             />
                         </div>
 
                         <div>
-                            <label className="text-sm font-medium text-gray-700 mb-2 block">Ingredients</label>
-                            <FoodSearch onSelect={handleFoodSelect} />
+                            <label className="text-sm font-medium text-gray-700 mb-2 block">
+                                {lang === 'es' ? 'Ingredientes' : 'Ingredients'}
+                            </label>
+                            <FoodSearch onSelect={handleFoodSelect} lang={lang} />
                         </div>
 
                         {pendingIngredient && (
@@ -195,7 +203,7 @@ const Recipes = () => {
                                     onClick={handleAddIngredient}
                                     className="px-3 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl text-sm font-medium transition border-none"
                                 >
-                                    Add
+                                    {lang === 'es' ? 'Añadir' : 'Add'}
                                 </button>
                                 <button
                                     type="button"
@@ -252,7 +260,7 @@ const Recipes = () => {
                             type="submit"
                             className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2.5 rounded-xl transition active:scale-95 border-none"
                         >
-                            Save recipe
+                            {lang === 'es' ? 'Guardar receta' : 'Save recipe'}
                         </button>
                     </form>
                 </div>

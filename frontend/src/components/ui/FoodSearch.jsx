@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { searchFoods } from '../../services/foodService'
 
 
-const FoodSearch = ({ onSelect}) => {
+const FoodSearch = ({ onSelect, lang = 'en' }) => {
 
     const [query, setQuery] = useState('')
     const [results, setResults] = useState([])
@@ -28,7 +28,7 @@ const FoodSearch = ({ onSelect}) => {
         const timeout = setTimeout(async () => {
             setLoading(true)
             try {
-                const data = await searchFoods(query)
+                const data = await searchFoods(query, lang)
                 setResults(data)
                 setOpen(true)
             } catch {
@@ -51,7 +51,7 @@ const FoodSearch = ({ onSelect}) => {
         <div ref={ref} className="relative">
             <input
                 type="text"
-                placeholder="🔍 Search ingredient..."
+                placeholder={lang === 'es' ? '🔍 Buscar ingrediente...' : '🔍 Search ingredient...'}
                 value={query}
                 onChange={e => setQuery(e.target.value)}
                 className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm bg-gray-50 focus:outline-none focus:border-indigo-400 focus:bg-white transition"
@@ -83,7 +83,7 @@ const FoodSearch = ({ onSelect}) => {
 
             {open && results.length === 0 && !loading && query.trim() && (
                 <div className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-gray-100 rounded-xl shadow-xl px-4 py-3 text-sm text-gray-400">
-                    No ingredients found for "{query}"
+                    {lang === 'es' ? `Sin resultados para "${query}"` : `No ingredients found for "${query}"`}
                 </div>
             )}
         </div>
