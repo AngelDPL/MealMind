@@ -23,6 +23,7 @@ const MEAL_LABELS = {
 }
 
 const MealPlanner = () => {
+    const [saving, setSaving] = useState(false)
     const [plans, setPlans] = useState([])
     const [recipes, setRecipes] = useState([])
     const [weekStart, setWeekStart] = useState('')
@@ -64,6 +65,7 @@ const MealPlanner = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setSaving(true)
         const ALL_DAYS = lang === 'es' ? ALL_DAYS_ES : ALL_DAYS_EN
         const entriesArray = Object.entries(entries)
             .filter(([_, recipeId]) => recipeId)
@@ -81,6 +83,8 @@ const MealPlanner = () => {
             fetchData()
         } catch (err) {
             setError(err.message)
+        } finally {
+            setSaving(false)
         }
     }
 
@@ -223,11 +227,13 @@ const MealPlanner = () => {
                 <h2 className="text-lg font-bold text-white drop-shadow mb-1">
                     {lang === 'es' ? 'Planes guardados' : 'Saved plans'}
                 </h2>
-                {loading ? (
+                {loading || saving ? (
                     <div className="flex flex-col items-center justify-center py-20 gap-3">
                         <div className="w-8 h-8 border-4 border-white/30 border-t-white rounded-full animate-spin" />
                         <p className="text-white/80 text-sm">
-                            {lang === 'es' ? 'Cargando planes...' : 'Loading plans...'}
+                            {saving
+                                ? lang === 'es' ? 'Guardando plan...' : 'Saving plan...'
+                                : lang === 'es' ? 'Cargando planes...' : 'Loading plans...'}
                         </p>
                     </div>
                 ) : plans.length === 0 ? (
