@@ -7,7 +7,7 @@ const content = {
         badge: '🥗 Smart meal planning, simplified',
         headline1: 'Plan your meals.',
         headline2: 'Eat with purpose.',
-        sub: 'MealMind helps you organize your recipes, plan your week and generate your shopping list — all in one place.',
+        sub: 'MealMind helps you organize your recipes, plan your week and generate your shopping list.. all in one place.',
         cta: 'Start for free ',
         signin: 'Sign in',
         footer: '© 2026 MealMind — Made with 🥦 and code',
@@ -33,7 +33,7 @@ const content = {
         badge: '🥗 Planificación de comidas inteligente',
         headline1: 'Planifica tus comidas.',
         headline2: 'Come con propósito.',
-        sub: 'MealMind te ayuda a organizar tus recetas, planificar tu semana y generar tu lista de la compra — todo en un solo lugar.',
+        sub: 'MealMind te ayuda a organizar tus recetas, planificar tu semana y generar tu lista de la compra.. todo en un solo lugar.',
         cta: 'Empieza gratis',
         signin: 'Iniciar sesión',
         footer: '© 2026 MealMind — Hecho con 🥦 y código',
@@ -84,18 +84,18 @@ const Landing = () => {
                 <nav className="flex items-center justify-between px-6 py-5">
                     <div className="flex items-center gap-2 mr-auto">
                         <span className="text-2xl">🥗</span>
-                        <span className="text-white font-bold text-xl tracking-tight">MealMind</span>
+                        <span className="text-white font-bold text-4xl tracking-tight">MealMind</span>
                     </div>
                     <div className="flex gap-3 items-center ml-auto">
                         <Link
                             to="/login"
-                            className="px-5 py-2 text-sm font-semibold text-white border border-white/40 rounded-xl hover:bg-white/10 transition whitespace-nowrap"
+                            className="px-5 py-2 text-xl font-semibold text-white backdrop-blur-md border border-white/40 rounded-xl hover:bg-white/10 transition whitespace-nowrap"
                         >
                             {t.signin}
                         </Link>
                         <Link
                             to="/register"
-                            className="px-5 py-2 text-sm font-semibold text-white bg-indigo-500 hover:bg-indigo-600 rounded-xl transition whitespace-nowrap"
+                            className="px-5 py-2 text-xl font-semibold text-white bg-indigo-500 hover:bg-indigo-600 rounded-xl transition whitespace-nowrap"
                         >
                             {t.cta}
                         </Link>
@@ -105,7 +105,7 @@ const Landing = () => {
                 <div
                     className={`flex flex-col items-center justify-center text-center px-4 py-24 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
                 >
-                    <div className="inline-block bg-white/20 backdrop-blur-sm text-white text-md font-semibold px-4 py-1.5 rounded-full mb-6 border border-white/30">
+                    <div className="inline-block bg-white/20 backdrop-blur-md text-white text-2xl font-semibold px-4 py-1.5 rounded-full mb-6 border border-white/30">
                         {t.badge}
                     </div>
                     <h1 className="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-4 drop-shadow-lg">
@@ -124,7 +124,7 @@ const Landing = () => {
                         </Link>
                         <Link
                             to="/login"
-                            className="px-8 py-3.5 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-bold rounded-2xl text-base transition active:scale-95 border border-white/30"
+                            className="px-8 py-3.5 bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-bold rounded-2xl text-base transition active:scale-95 border border-white/30"
                         >
                             {t.signin}
                         </Link>
