@@ -108,16 +108,16 @@ const MealPlanner = () => {
                 </h1>
                 <button
                     onClick={() => setShowForm(!showForm)}
-                    className={`px-4 py-2 rounded-xl text-sm font-semibold transition active:scale-95 border-none shadow-md ${showForm ? 'bg-white/20 text-white hover:bg-white/30' : 'bg-white text-indigo-600 hover:bg-indigo-50'}`}
+                    className={`px-4 py-2 rounded-xl text-md font-semibold transition active:scale-95 border-none shadow-md ${showForm ? 'bg-white/20 text-white backdrop-blur-md hover:bg-white/30' : 'bg-white text-indigo-600 hover:bg-indigo-50'}`}
                 >
                     {showForm
-                        ? '✕ ' + (lang === 'es' ? 'Cancelar' : 'Cancel')
+                        ? (lang === 'es' ? 'Cancelar' : 'Cancel')
                         : '+ ' + (lang === 'es' ? 'Nuevo plan' : 'New plan')}
                 </button>
             </div>
 
             {error && (
-                <div className="bg-red-50 text-red-600 text-sm px-4 py-3 rounded-xl mb-4">
+                <div className="bg-red-50 text-red-600 text-md px-4 py-3 rounded-xl mb-4">
                     ⚠️ {error}
                 </div>
             )}
@@ -143,7 +143,7 @@ const MealPlanner = () => {
                         </div>
 
                         {!weekStart && (
-                            <div className="bg-indigo-50 border border-indigo-100 rounded-xl px-4 py-3 text-sm text-indigo-500 text-center">
+                            <div className="bg-indigo-50 border border-indigo-100 rounded-xl px-4 py-3 text-md text-indigo-500 text-center">
                                 📅 {lang === 'es' ? 'Selecciona una fecha de inicio' : 'Select a start date first'}
                             </div>
                         )}
@@ -224,21 +224,18 @@ const MealPlanner = () => {
             )}
 
             <div className="flex flex-col gap-3 relative z-0">
-                <h2 className="text-lg font-bold text-white drop-shadow mb-1">
-                    {lang === 'es' ? 'Planes guardados' : 'Saved plans'}
-                </h2>
                 {loading || saving ? (
                     <div className="flex flex-col items-center justify-center py-20 gap-3">
                         <div className="w-8 h-8 border-4 border-white/30 border-t-white rounded-full animate-spin" />
-                        <p className="text-white/80 text-sm">
+                        <p className="text-white/80 text-lg">
                             {saving
                                 ? lang === 'es' ? 'Guardando plan...' : 'Saving plan...'
                                 : lang === 'es' ? 'Cargando planes...' : 'Loading plans...'}
                         </p>
                     </div>
                 ) : plans.length === 0 ? (
-                    <div className="rounded-2xl text-center py-16 text-xl text-white/90 bg-black/40">
-                        {lang === 'es' ? 'No hay planes aún. ¡Crea el primero!' : 'No plans yet. Create your first one!'}
+                    <div className="rounded-2xl text-center py-16 text-xl text-white/90 bg-black/60">
+                        {lang === 'es' ? 'No hay planes aún.. ¡Crea el primero!' : 'No plans yet.. create your first one!'}
                     </div>
                 ) : (
                     plans.map(plan => (
@@ -250,7 +247,7 @@ const MealPlanner = () => {
                                         {lang === 'es' ? 'Semana del' : 'Week of'} {plan.week_start_date}
                                     </h4>
                                 </div>
-                                <p className="text-gray-500 text-sm mt-0.5">
+                                <p className="text-gray-500 text-md mt-0.5">
                                     {plan.entries.length} {lang === 'es' ? 'comidas planificadas' : 'meals planned'}
                                 </p>
                             </div>
@@ -296,7 +293,6 @@ const MealPlanner = () => {
                 {confirmDelete && (
                     <div className="fixed inset-0 z-50 flex items-center justify-center px-4" style={{ background: 'rgba(0,0,0,0.6)' }}>
                         <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-sm text-center flex flex-col gap-4">
-                            <div className="text-5xl">🗑️</div>
                             <h3 className="text-xl font-bold text-gray-800">
                                 {lang === 'es' ? '¿Eliminar plan?' : 'Delete plan?'}
                             </h3>

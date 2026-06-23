@@ -52,7 +52,7 @@ const Shopping = () => {
     if (loading) return (
         <div className="flex flex-col items-center justify-center py-20 gap-3">
             <div className="w-8 h-8 border-4 border-white/30 border-t-white rounded-full animate-spin" />
-            <p className="text-white/80 text-sm">
+            <p className="text-white/80 text-md">
                 {lang === 'es' ? 'Cargando lista...' : 'Loading shopping list...'}
             </p>
         </div>
@@ -69,7 +69,7 @@ const Shopping = () => {
                     ← {lang === 'es' ? 'Volver' : 'Back'}
                 </button>
                 <h1 className="text-2xl font-bold text-white drop-shadow">
-                    🛒 {lang === 'es' ? 'Lista de la Compra' : 'Shopping List'}
+                    {lang === 'es' ? 'Lista de la Compra' : 'Shopping List'}
                 </h1>
             </div>
 
@@ -82,11 +82,11 @@ const Shopping = () => {
             <button
                 onClick={handleGenerate}
                 disabled={generating}
-                className="w-full bg-green-500 hover:bg-green-600 text-white/90 font-semibold py-3 rounded-2xl transition active:scale-95 border-none shadow-md mb-6 disabled:opacity-60"
+                className="text-lg w-full bg-green-500 hover:bg-green-600 text-white/90 font-semibold py-3 rounded-2xl transition active:scale-95 border-none shadow-md mb-6 disabled:opacity-60"
             >
                 {generating
-                    ? '⏳ ' + (lang === 'es' ? 'Generando...' : 'Generating...')
-                    : '🔄 ' + (lang === 'es' ? 'Generar / Actualizar lista' : 'Generate / Refresh list')}
+                    ? (lang === 'es' ? 'Generando...' : 'Generating...')
+                    : (lang === 'es' ? 'Generar / Actualizar lista' : 'Generate / Refresh list')}
             </button>
 
             {items.length > 0 && (
@@ -107,7 +107,7 @@ const Shopping = () => {
             )}
 
             {items.length === 0 ? (
-                <div className="rounded-2xl text-center py-16 text-xl text-white/90 bg-black/40">
+                <div className="rounded-2xl text-center py-16 text-xl text-white/90 bg-black/60">
                     {lang === 'es' ? 'Sin artículos. Genera la lista primero.' : 'No items yet. Generate the list first.'}
                 </div>
             ) : (
