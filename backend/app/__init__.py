@@ -1,7 +1,6 @@
 from flask import Flask
 from .extensions import db, jwt, cors, migrate
 from config import Config
-from flask_cors import CORS
 from sqlalchemy import select as sa_select
 
 
@@ -25,12 +24,16 @@ def create_app():
     from .routes.meal_plans import meal_plan_bp
     from .routes.shopping import shopping_bp
     from .routes.foods import foods_bp
+    from .routes.subscription import subscription_bp
+    from .routes.stripe_webhook import stripe_webhook_bp
 
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
     app.register_blueprint(recipes_bp, url_prefix="/api/recipes")
     app.register_blueprint(meal_plan_bp, url_prefix="/api/meal-plan")
     app.register_blueprint(shopping_bp, url_prefix="/api/shopping")
     app.register_blueprint(foods_bp, url_prefix="/api/foods")
+    app.register_blueprint(subscription_bp, url_prefix="/api/subscription")
+    app.register_blueprint(stripe_webhook_bp, url_prefix="/api/stripe")
 
     with app.app_context():
         from .models import (
