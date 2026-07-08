@@ -12,9 +12,11 @@ def create_app():
     db.init_app(app)
     jwt.init_app(app)
     cors.init_app(app, resources={r"/api/*": {"origins": [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "https://meal-mind-seven.vercel.app"
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "https://meal-mind-seven.vercel.app",
+        "https://mealmind.cc",
+        "https://www.mealmind.cc"
     ]}})
     migrate.init_app(app, db)
 
@@ -42,7 +44,7 @@ def create_app():
         )
 
         db.create_all()
-        
+
         if not db.session.execute(sa_select(Food)).first():
             from seed_foods import FOODS
             for f in FOODS:
