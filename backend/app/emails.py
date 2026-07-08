@@ -3,7 +3,7 @@ import os
 
 resend.api_key = os.getenv("RESEND_API_KEY")
 
-FROM = "MealMind <onboarding@resend.dev>"
+FROM = "MealMind <noreply@mealmind.cc>"
 
 
 def send_welcome_email(user_email, username, password_plain):
@@ -40,7 +40,7 @@ def send_welcome_email(user_email, username, password_plain):
 
 
 def send_email_change_confirmation(pending_email, username, token):
-    confirm_url = f"https://meal-mind-seven.vercel.app/confirm-email?token={token}"
+    confirm_url = f"https://mealmind.cc/confirm-email?token={token}"
     resend.Emails.send(
         {
             "from": FROM,
@@ -68,7 +68,7 @@ def send_email_change_confirmation(pending_email, username, token):
 
 
 def send_password_reset_email(user_email, username, token):
-    reset_url = f"https://meal-mind-seven.vercel.app/reset-password?token={token}"
+    reset_url = f"https://mealmind.cc/reset-password?token={token}"
     resend.Emails.send(
         {
             "from": FROM,
