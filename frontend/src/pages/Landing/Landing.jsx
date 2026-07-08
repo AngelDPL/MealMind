@@ -106,13 +106,13 @@ const Landing = () => {
                     className={`flex flex-col items-center justify-center text-center px-4 py-24 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
                 >
                     <div className="inline-block bg-white/20 backdrop-blur-md text-white text-2xl font-semibold px-4 py-1.5 rounded-full mb-6 border border-white/30">
-                        {t.badge}
+                        {t.badge}.
                     </div>
                     <h1 className="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-4 drop-shadow-lg">
                         {t.headline1}<br />
                         <span className="text-indigo-300">{t.headline2}</span>
                     </h1>
-                    <p className="p-5 text-white bg-black/40 rounded text-lg md:text-xl max-w-xl mb-10 leading-relaxed">
+                    <p className="p-5 text-white bg-black/60 rounded-xl text-lg md:text-xl max-w-xl mb-10 leading-relaxed">
                         {t.sub}
                     </p>
                     <div className="flex gap-4 flex-wrap justify-center">
@@ -140,8 +140,8 @@ const Landing = () => {
                                 style={{ transitionDelay: `${200 + i * 100}ms` }}
                             >
                                 <div className="text-4xl mb-4">{f.emoji}</div>
-                                <h3 className="font-bold text-gray-800 text-lg mb-3">{f.title}</h3>
-                                <p className="text-gray-600 text-sm leading-relaxed">{f.description}</p>
+                                <h3 className="font-bold text-gray-800 text-xl mb-3">{f.title}</h3>
+                                <p className="text-gray-600 text-lg leading-relaxed">{f.description}</p>
                             </div>
                         ))}
                     </div>
