@@ -45,4 +45,5 @@ class User(db.Model):
             "username": self.username,
             "email": self.email,
             "first_login": self.first_login,
+            "is_premium": self.is_premium,
         }

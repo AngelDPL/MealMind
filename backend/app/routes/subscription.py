@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models import User
-from app.services.stripe_service import create_chechout_session, create_portal_session
+from app.services.stripe_service import create_checkout_session, create_portal_session
 
 subscription_bp = Blueprint("subscription", __name__)
 
@@ -17,7 +17,7 @@ def create_checkout():
     if user.is_premium:
         return jsonify({"error": "User already has an active subscription"}), 404
 
-    session = create_chechout_session(user)
+    session = create_checkout_session(user)
     return jsonify({"checkout_url": session.url}), 200
 
 
