@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { getMealPlans, createMealPlan, deleteMealPlan, completeMealPlan } from '../../services/mealPlanService'
 import { getRecipes } from '../../services/recipeService'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
 import useLang from '../../hooks/useLang'
 
 const ALL_DAYS_EN = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
@@ -34,6 +35,7 @@ const MealPlanner = () => {
     const [error, setError] = useState('')
     const [confirmDelete, setConfirmDelete] = useState(null)
     const navigate = useNavigate()
+    const { isPremium } = useAuth()
     const lang = useLang()
 
     const days = getDaysFromDate(weekStart, lang)
@@ -115,6 +117,30 @@ const MealPlanner = () => {
                         : '+ ' + (lang === 'es' ? 'Nuevo plan' : 'New plan')}
                 </button>
             </div>
+
+            {!isPremium && (
+                <div className="bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl shadow-lg p-5 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div>
+                        <p className="text-white font-bold text-lg flex items-center gap-2">
+                            <span className="[filter:grayscale(1)_sepia(1)_saturate(4)_hue-rotate(-10deg)]">
+                                🥦
+                            </span>
+                            {lang === 'es' ? '¿Sin ideas para esta semana?' : 'No ideas for this week?'}
+                        </p>
+                        <p className="text-white/80 text-md mt-1">
+                            {lang === 'es'
+                                ? 'Deja que la IA cree tu plan según tus calorías, ingredientes y alergias.'
+                                : 'Let AI build your plan based on your calories, ingredients and allergies.'}
+                        </p>
+                    </div>
+                    <button
+                        onClick={() => navigate('/premium')}
+                        className="whitespace-nowrap px-5 py-2.5 bg-white text-indigo-600 font-semibold rounded-xl transition active:scale-95 border-none shadow-md hover:bg-indigo-50"
+                    >
+                        {lang === 'es' ? 'Probar gratis' : 'Try for free'}
+                    </button>
+                </div>
+            )}
 
             {error && (
                 <div className="bg-red-50 text-red-600 text-md px-4 py-3 rounded-xl mb-4">

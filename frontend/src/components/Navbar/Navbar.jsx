@@ -1,16 +1,21 @@
+import { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import useLang from '../../hooks/useLang'
 
 const Navbar = () => {
-    const { user, logoutUser } = useAuth()
+    const { user, logoutUser, isPremium } = useAuth()
+    const [menuOpen, setMenuOpen] = useState(false)
     const navigate = useNavigate()
     const lang = useLang()
 
     const handleLogout = () => {
+        setMenuOpen(false)
         logoutUser()
         navigate('/')
     }
+
+    const closeMenu = () => setMenuOpen(false)
 
     if (!user) return null
 
@@ -22,7 +27,7 @@ const Navbar = () => {
                     🥗 <span className="hidden sm:inline tracking-wide">MealMind</span>
                 </div>
 
-                <div className="flex items-center gap-1">
+                <div className="hidden md:flex items-center gap-1">
                     <NavLink
                         to="/recipes"
                         className={({ isActive }) =>
@@ -32,7 +37,7 @@ const Navbar = () => {
                             }`
                         }
                     >
-                        🍽️ <span className="hidden md:inline">
+                        🍽️ <span className="hidden lg:inline">
                             {lang === 'es' ? 'Recetas' : 'Recipes'}
                         </span>
                     </NavLink>
@@ -45,7 +50,7 @@ const Navbar = () => {
                             }`
                         }
                     >
-                        📅 <span className="hidden md:inline">
+                        📅 <span className="hidden lg:inline">
                             {lang === 'es' ? 'Planificador' : 'Planner'}
                         </span>
                     </NavLink>
@@ -58,17 +63,110 @@ const Navbar = () => {
                             }`
                         }
                     >
-                        👤 <span className="hidden md:inline">{user.username}</span>
+                        👤 <span className="hidden lg:inline">{user.username}</span>
+                    </NavLink>
+                    <NavLink
+                        to="/premium"
+                        className={({ isActive }) =>
+                            `px-3 py-2 ms-8 rounded-xl text-lg font-medium transition ${isActive
+                                ? 'bg-amber-400 text-white'
+                                : isPremium
+                                    ? 'bg-amber-400 hover:bg-amber-500'
+                                    : 'text-white hover:bg-amber-400 hover:text-white'
+                            }`
+                        }
+                    >
+                        <span style={{ filter: 'grayscale(1) sepia(1) saturate(4) brightness(0.9) hue-rotate(-10deg)' }}>
+                            🥦
+                        </span>
+                        <span className="hidden lg:inline">
+                            {isPremium
+                                ? ''
+                                : (lang === 'es' ? 'Hazte Premium' : 'Go Premium')}
+                        </span>
                     </NavLink>
                 </div>
 
                 <button
                     onClick={handleLogout}
-                    className="text-lg font-medium text-white/80 hover:text-white bg-white/10 hover:bg-white/20 px-4 py-2 rounded-xl transition border-none shadow-none"
+                    className="hidden md:block text-lg font-medium text-white/80 hover:text-white bg-white/10 hover:bg-white/20 px-4 py-2 rounded-xl transition border-none shadow-none"
                 >
-                    {lang === 'es' ? 'Cerrar sesión' : 'Sign out'}
+                    <span className="hidden lg:inline">{lang === 'es' ? 'Cerrar sesión' : 'Sign out'}</span>
+                    <span className="lg:hidden">{lang === 'es' ? 'Salir' : 'Out'}</span>
+                </button>
+
+                <button
+                    onClick={() => setMenuOpen(!menuOpen)}
+                    className="md:hidden text-white text-3xl bg-transparent border-none shadow-none p-1"
+                    aria-label="Menu"
+                >
+                    {menuOpen ? '✕' : '☰'}
                 </button>
             </div>
+
+            {menuOpen && (
+                <div className="md:hidden bg-black/80 backdrop-blur-md border-t border-white/20 flex flex-col px-4 py-3 gap-1">
+                    <NavLink
+                        to="/recipes"
+                        onClick={closeMenu}
+                        className={({ isActive }) =>
+                            `px-4 py-2 rounded-xl text-lg font-medium transition ${isActive
+                                ? 'bg-white/20 text-white'
+                                : 'text-white hover:bg-white/10 hover:text-white'
+                            }`
+                        }
+                    >
+                        🍽️ {lang === 'es' ? 'Recetas' : 'Recipes'}
+                    </NavLink>
+                    <NavLink
+                        to="/meal-planner"
+                        onClick={closeMenu}
+                        className={({ isActive }) =>
+                            `px-4 py-2 rounded-xl text-lg font-medium transition ${isActive
+                                ? 'bg-white/20 text-white'
+                                : 'text-white hover:bg-white/10 hover:text-white'
+                            }`
+                        }
+                    >
+                        📅 {lang === 'es' ? 'Planificador' : 'Planner'}
+                    </NavLink>
+                    <NavLink
+                        to="/profile"
+                        onClick={closeMenu}
+                        className={({ isActive }) =>
+                            `px-4 py-2 rounded-xl text-lg font-medium transition ${isActive
+                                ? 'bg-white/20 text-white'
+                                : 'text-white hover:bg-white/10 hover:text-white'
+                            }`
+                        }
+                    >
+                        👤 {user.username}
+                    </NavLink>
+                    <NavLink
+                        to="/premium"
+                        onClick={closeMenu}
+                        className={({ isActive }) =>
+                            `px-3 py-2 rounded-xl text-lg font-medium transition ${isActive
+                                ? 'bg-amber-400 text-white'
+                                : isPremium
+                                    ? 'bg-amber-400 hover:bg-amber-500'
+                                    : 'text-white hover:bg-amber-400 hover:text-white'
+                            }`
+                        }
+                    >
+                        <span style={{ filter: 'grayscale(1) sepia(1) saturate(4) brightness(0.9) hue-rotate(-10deg)' }}>
+                            🥦
+                        </span>{' '}
+                        {isPremium ? 'Premium' : (lang === 'es' ? 'Hazte Premium' : 'Go Premium')}
+                    </NavLink>
+                    <button
+                        onClick={handleLogout}
+                        className="text-left px-4 py-2 rounded-xl text-lg font-medium text-white hover:text-white hover:bg-white/10 transition border-none shadow-none"
+                    >
+                        {lang === 'es' ? 'Cerrar sesión' : 'Sign out'}
+                    </button>
+                </div>
+            )}
         </nav>
     )
 }

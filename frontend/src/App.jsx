@@ -14,6 +14,8 @@ import Landing from './pages/Landing/Landing'
 import ConfirmEmail from './pages/ConfirmEmail/ConfirmEmail'
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword'
 import ResetPassword from './pages/ResetPassword/ResetPassword'
+import Premium from './pages/Premium/Premium'
+import PremiumSuccess from './pages/Premium/PremiumSuccess'
 
 
 const PublicRoute = ({ children }) => {
@@ -53,6 +55,8 @@ const App = () => {
 						<Route path="/meal-planner/:planId" element={<PrivateRoutes><MealPlanDetail /></PrivateRoutes>} />
 						<Route path="/shopping/:planId" element={<PrivateRoutes><Shopping /></PrivateRoutes>} />
 						<Route path="/profile" element={<PrivateRoutes><Profile /></PrivateRoutes>} />
+						<Route path="/premium" element={<PrivateRoutes><Premium /></PrivateRoutes>} />
+						<Route path="/premium/success" element={<PrivateRoutes><PremiumSuccess /></PrivateRoutes>} />
 						<Route path="*" element={<Navigate to="/" />} />
 						<Route path="/confirm-email" element={<ConfirmEmail />} />
 						<Route path="/forgot-password" element={<ForgotPassword />} />

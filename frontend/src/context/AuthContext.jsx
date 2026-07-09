@@ -46,9 +46,20 @@ export const AuthProvider = ({ children }) => {
         setFirstLogin(false)
     }
 
+    const refreshUser = async () => {
+        try {
+            const userData = await getMe()
+            setUser(userData)
+        } catch {
+
+        }
+    }
+
+    const isPremium = user?.is_premium ?? false
+
 
     return (
-        <AuthContext.Provider value={{ user, loading, loginUser, logoutUser, firstLogin, setFirstLogin }}>
+        <AuthContext.Provider value={{ user, loading, loginUser, logoutUser, firstLogin, setFirstLogin, refreshUser, isPremium }}>
             {children}
         </AuthContext.Provider>
     )
