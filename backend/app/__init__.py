@@ -26,6 +26,7 @@ def create_app():
     from .routes.foods import foods_bp
     from .routes.subscription import subscription_bp
     from .routes.stripe_webhook import stripe_webhook_bp
+    from .routes.ai import ai_bp
 
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
     app.register_blueprint(recipes_bp, url_prefix="/api/recipes")
@@ -34,6 +35,7 @@ def create_app():
     app.register_blueprint(foods_bp, url_prefix="/api/foods")
     app.register_blueprint(subscription_bp, url_prefix="/api/subscription")
     app.register_blueprint(stripe_webhook_bp, url_prefix="/api/stripe")
+    app.register_blueprint(ai_bp, url_prefix="/api/ai")
 
     with app.app_context():
         from .models import (

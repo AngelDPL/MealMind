@@ -20,6 +20,8 @@ class User(db.Model):
     password_reset_token: Mapped[Optional[str]] = mapped_column(String(100))
 
     subscription: Mapped[Optional["Subscription"]] = relationship(back_populates="user", uselist=False)
+    preferences: Mapped[Optional["UserPreference"]] = relationship(back_populates="user", uselist=False)
+    ai_plans: Mapped[list["AIGeneratedPlan"]] = relationship(back_populates="user", cascade="all, delete-orphan")
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -46,4 +48,5 @@ class User(db.Model):
             "email": self.email,
             "first_login": self.first_login,
             "is_premium": self.is_premium,
+            "preferences": self.preferences.to_dict() if self.preferences else None,
         }
