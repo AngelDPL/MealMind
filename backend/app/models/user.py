@@ -18,6 +18,7 @@ class User(db.Model):
     pending_email: Mapped[Optional[str]] = mapped_column(String(120))
     email_confirm_token: Mapped[Optional[str]] = mapped_column(String(100))
     password_reset_token: Mapped[Optional[str]] = mapped_column(String(100))
+    google_id: Mapped[Optional[str]] = mapped_column(String(120), unique=True)
 
     subscription: Mapped[Optional["Subscription"]] = relationship(back_populates="user", uselist=False)
     preferences: Mapped[Optional["UserPreference"]] = relationship(back_populates="user", uselist=False)

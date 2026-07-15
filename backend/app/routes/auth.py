@@ -4,11 +4,21 @@ from sqlalchemy import select
 from app.extensions import db, limiter
 from app.models import User
 from app.utils import create_starter_recipes
+
 from app.services.emails import (
     send_welcome_email,
     send_email_change_confirmation,
     send_password_reset_email
 )
+
+from google.oauth2 import id_token
+from google.auth.transport import requests as google_requests
+import os
+import secrets as pysecrets
+
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+
+
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -209,3 +219,70 @@ def reset_password():
     db.session.commit()
 
     return jsonify({"message": "Password reset successfully"}), 200
+
+
+@auth_bp.route("/google", methods=["POST"])
+@limiter.limit("15 per 15 minutes")
+def google_login():
+    data = request.get_json()
+    token = data.get("credential")
+
+    if not token:
+        return jsonify({"error": "Missing Google credential"}), 400
+
+    try:
+        idinfo = id_token.verify_oauth2_token(
+            token, google_requests.Request(), GOOGLE_CLIENT_ID, clock_skew_in_seconds=10
+        )
+    except ValueError as e:
+        print(f"[GOOGLE AUTH ERROR] {e}")
+        return jsonify({"error": "Invalid Google token"}), 401
+
+    google_id = idinfo["sub"]
+    email = idinfo["email"]
+    name = idinfo.get("name", email.split("@")[0])
+
+    user = db.session.execute(
+        select(User).where(User.google_id == google_id)
+    ).scalar_one_or_none()
+
+    if not user:
+        user = db.session.execute(
+            select(User).where(User.email == email)
+        ).scalar_one_or_none()
+
+        if user:
+            user.google_id = google_id
+        else:
+            base_username = name.replace(" ", "").lower()[:70]
+            username = base_username
+            suffix = 1
+            while db.session.execute(
+                select(User).where(User.username == username)
+            ).scalar_one_or_none():
+                username = f"{base_username}{suffix}"
+                suffix += 1
+
+            user = User(
+                username=username,
+                email=email,
+                google_id=google_id,
+            )
+            user.set_password(pysecrets.token_urlsafe(32))
+            db.session.add(user)
+            db.session.flush()
+            create_starter_recipes(user.id)
+
+    is_first = user.first_login
+    if user.first_login:
+        user.first_login = False
+
+    db.session.commit()
+
+    jwt_token = create_access_token(identity=str(user.id))
+
+    return jsonify({
+        "access_token": jwt_token,
+        "user": user.to_dict(),
+        "first_login": is_first,
+    }), 200
