@@ -1,15 +1,15 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
-import useLang from '../../hooks/useLang'
 import BrokyIntroModal from './BrokyIntroModal'
 import BrokyChatModal from './BrokyChatModal'
 
 const Broky = () => {
-    const { isPremium } = useAuth()
+    const { isPremium, user } = useAuth()
     const [modalOpen, setModalOpen] = useState(false)
     const navigate = useNavigate()
-    const lang = useLang()
+
+    if (!user) return null
 
     return (
         <>

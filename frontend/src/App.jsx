@@ -16,6 +16,7 @@ import ForgotPassword from './pages/ForgotPassword/ForgotPassword'
 import ResetPassword from './pages/ResetPassword/ResetPassword'
 import Premium from './pages/Premium/Premium'
 import PremiumSuccess from './pages/Premium/PremiumSuccess'
+import Broky from "./components/Broky/Broky"
 
 
 const PublicRoute = ({ children }) => {
@@ -44,6 +45,7 @@ const App = () => {
 		>
 			<div className="absolute inset-0 z-0" />
 			<div className="relative z-10 min-h-screen flex flex-col">
+				<Broky />
 				<Navbar />
 				<main className="flex-1">
 					<Routes>

@@ -5,23 +5,23 @@ const BrokyIntroModal = ({ onClose, onUpgrade }) => {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4" style={{ background: 'rgba(0,0,0,0.6)' }}>
-            <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md text-center flex flex-col gap-4">
+            <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-lg text-center flex flex-col gap-4">
                 <span className="text-5xl mx-auto" style={{ filter: 'grayscale(1) sepia(1) saturate(4) brightness(0.9) hue-rotate(-10deg)' }}>
                     🥦
                 </span>
                 <h2 className="text-2xl font-bold text-gray-800">
                     {lang === 'es' ? '¡Hola, soy Broky!' : "Hi, I'm Broky!"}
                 </h2>
-                <p className="text-gray-600">
+                <p className="text-gray-600 text-lg">
                     {lang === 'es'
                         ? 'Puedo crear tu plan de comidas al instante: solo hoy, toda la semana, o los días que tú elijas.'
                         : 'I can build your meal plan instantly: just today, the whole week, or whichever days you pick.'}
                 </p>
 
-                <div className="bg-gray-50 rounded-xl p-4 text-left text-sm text-gray-700 flex flex-col gap-2">
-                    <p>✅ {lang === 'es' ? 'Respeto tus calorías máximas por comida' : 'I respect your max calories per meal'}</p>
-                    <p>✅ {lang === 'es' ? 'Uso los ingredientes que prefieras' : 'I use your preferred ingredients'}</p>
-                    <p>✅ {lang === 'es' ? 'Nunca incluyo tus alergias' : 'I never include your allergies'}</p>
+                <div className="bg-gray-200 rounded-xl p-4 text-left text-lg text-gray-900 flex flex-col gap-2">
+                    <p>{lang === 'es' ? 'Respeto tus calorías máximas por comida.' : 'I respect your max calories per meal.'}</p>
+                    <p>{lang === 'es' ? 'Uso los ingredientes que prefieras.' : 'I use your preferred ingredients.'}</p>
+                    <p>{lang === 'es' ? 'Nunca incluyo tus alergias.' : 'I never include your allergies.'}</p>
                 </div>
 
                 <button
