@@ -1,10 +1,11 @@
+from datetime import date
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import get_jwt_identity
-from app.decorators import premium_required
-from app.models import User, AIGeneratedPlan, UserPreference
-from app.services.openai_service import generate_meal_plan
-from app.extensions import db
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from app.decorators import premium_required
+from app.models import User, UserPreference, MealPlan, MealPlanEntry, Recipe, Ingredient, Food
+from app.services.openai_service import generate_meal_plan
+from app.services.food_catalog_service import get_filtered_catalog
+from app.extensions import db
 
 ai_bp = Blueprint("ai", __name__)
 
@@ -14,15 +15,43 @@ def _contains_allergen(text_list, allergies):
     return [a for a in allergies if a.lower() in joined]
 
 
-def _validate_plan_against_allergies(plan_data, allergies):
+def _sanitize_ingredients(raw_list, max_items=10, max_len=40, min_len=3):
+    if not isinstance(raw_list, list):
+        return []
+    cleaned = []
+    for item in raw_list:
+        if not isinstance(item, str):
+            continue
+        item = item.strip()[:max_len]
+        if len(item) >= min_len:
+            cleaned.append(item)
+        if len(cleaned) >= max_items:
+            break
+    return cleaned
+
+
+def _find_invalid_food_ids(plan_data, valid_ids):
+    invalid = set()
+    for day in plan_data.get("days", []):
+        for meal in day.get("meals", []):
+            for ing in meal.get("ingredients", []):
+                fid = ing.get("food_id")
+                if fid not in valid_ids:
+                    invalid.add(fid)
+    return invalid
+
+
+def _validate_plan_against_allergies_by_food(plan_data, allergies, lang):
     if not allergies:
         return []
 
     issues = []
     for day in plan_data.get("days", []):
         for meal in day.get("meals", []):
-            check_text = meal.get("ingredients", []) + [meal.get("name", "")]
-            found = _contains_allergen(check_text, allergies)
+            food_ids = [ing["food_id"] for ing in meal.get("ingredients", [])]
+            foods = Food.query.filter(Food.id.in_(food_ids)).all()
+            names = [f.to_dict(lang=lang)["name"] for f in foods]
+            found = _contains_allergen(names + [meal.get("name", "")], allergies)
             if found:
                 issues.append({
                     "day": day.get("day"),
@@ -31,21 +60,6 @@ def _validate_plan_against_allergies(plan_data, allergies):
                     "matched_allergens": found,
                 })
     return issues
-
-
-def _sanitize_ingredients(raw_list, max_items=10, max_len=40):
-    if not isinstance(raw_list, list):
-        return []
-    cleaned = []
-    for item in raw_list:
-        if not isinstance(item, str):
-            continue
-        item = item.strip()[:max_len]
-        if item:
-            cleaned.append(item)
-        if len(cleaned) >= max_items:
-            break
-    return cleaned
 
 
 @ai_bp.route("/generate-plan", methods=["POST"])
@@ -70,11 +84,14 @@ def generate_plan():
     request_allergies = data.get("allergies", [])
     all_allergies = list(set(saved_allergies + request_allergies))
 
+    catalog = get_filtered_catalog(preferred_ingredients, lang=lang)
+    catalog_ids = {f["id"] for f in catalog}
+
     try:
         plan_data = generate_meal_plan(
             days=days,
             max_calories_per_meal=max_calories_per_meal,
-            preferred_ingredients=preferred_ingredients,
+            catalog=catalog,
             allergies=all_allergies,
             dietary_style=dietary_style,
             lang=lang,
@@ -82,7 +99,14 @@ def generate_plan():
     except Exception as e:
         return jsonify({"error": "AI generation failed", "detail": str(e)}), 502
 
-    issues = _validate_plan_against_allergies(plan_data, all_allergies)
+    invalid_ids = _find_invalid_food_ids(plan_data, catalog_ids)
+    if invalid_ids:
+        return jsonify({
+            "error": "AI returned unknown ingredient ids",
+            "detail": list(invalid_ids),
+        }), 502
+
+    issues = _validate_plan_against_allergies_by_food(plan_data, all_allergies, lang)
 
     return jsonify({
         "plan": plan_data,
@@ -97,40 +121,51 @@ def save_plan():
     data = request.get_json() or {}
 
     plan_data = data.get("plan")
+    week_start_date_str = data.get("week_start_date")
+    lang = data.get("lang", "en")
+
     if not plan_data:
         return jsonify({"error": "Missing plan data"}), 400
 
-    ai_plan = AIGeneratedPlan(
-        user_id=user_id,
-        plan_data=plan_data,
-        max_calories_per_meal=data.get("max_calories_per_meal"),
-    )
-    db.session.add(ai_plan)
-    db.session.commit()
+    week_start_date = date.fromisoformat(week_start_date_str) if week_start_date_str else date.today()
 
-    return jsonify(ai_plan.to_dict()), 201
+    meal_plan = MealPlan(user_id=user_id, week_start_date=week_start_date)
+    db.session.add(meal_plan)
+    db.session.flush()
 
+    try:
+        for day in plan_data.get("days", []):
+            for meal in day.get("meals", []):
+                recipe = Recipe(
+                    user_id=user_id,
+                    name=meal.get("name", "AI meal"),
+                    name_es=meal.get("name") if lang == "es" else None,
+                )
+                db.session.add(recipe)
+                db.session.flush()
 
-@ai_bp.route("/plans", methods=["GET"])
-@premium_required
-def list_plans():
-    user_id = get_jwt_identity()
-    plans = AIGeneratedPlan.query.filter_by(user_id=user_id).order_by(AIGeneratedPlan.created_at.desc()).all()
-    return jsonify([p.to_dict() for p in plans]), 200
+                for ing in meal.get("ingredients", []):
+                    ingredient = Ingredient(
+                        recipe_id=recipe.id,
+                        food_id=ing["food_id"],
+                        quantity=ing["quantity"],
+                    )
+                    db.session.add(ingredient)
 
+                entry = MealPlanEntry(
+                    day_of_week=day["day"],
+                    meal_type=meal["type"],
+                    meal_plan_id=meal_plan.id,
+                    recipe_id=recipe.id,
+                )
+                db.session.add(entry)
 
-@ai_bp.route("/plans/<int:plan_id>", methods=["DELETE"])
-@premium_required
-def delete_plan(plan_id):
-    user_id = get_jwt_identity()
-    plan = AIGeneratedPlan.query.filter_by(id=plan_id, user_id=user_id).first()
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": "Failed to save plan", "detail": str(e)}), 500
 
-    if not plan:
-        return jsonify({"error": "Plan not found"}), 404
-
-    db.session.delete(plan)
-    db.session.commit()
-    return jsonify({"message": "Deleted"}), 200
+    return jsonify(meal_plan.to_dict()), 201
 
 
 @ai_bp.route("/preferences", methods=["GET"])

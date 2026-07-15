@@ -1,0 +1,38 @@
+{
+  "plan": {
+    "days": [
+      {
+        "day": "Monday",
+        "meals": [
+          {
+            "ingredients": [
+              {"food_id": 70, "quantity": 50},
+              {"food_id": 181, "quantity": 10}
+            ],
+            "name": "Oatmeal with Honey",
+            "type": "breakfast"
+          },
+          {
+            "ingredients": [
+              {"food_id": 2, "quantity": 150},
+              {"food_id": 65, "quantity": 100},
+              {"food_id": 152, "quantity": 15}
+            ],
+            "name": "Chicken Thigh Stir-Fry",
+            "type": "lunch"
+          },
+          {
+            "ingredients": [
+              {"food_id": 8, "quantity": 200},
+              {"food_id": 66, "quantity": 150},
+              {"food_id": 149, "quantity": 10}
+            ],
+            "name": "Pork Chop with Rice",
+            "type": "dinner"
+          }
+        ]
+      }
+    ]
+  },
+  "lang": "en"
+}
