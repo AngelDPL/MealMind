@@ -15,3 +15,5 @@ export const requestEmailChange = async (data) => post('/auth/request-email-chan
 export const forgotPassword = async (data) => post('/auth/forgot-password', data)
 
 export const resetPassword = async (data) => post('/auth/reset-password', data)
+
+export const loginWithGoogle = async (credential) => post('/auth/google', { credential })

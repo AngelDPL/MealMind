@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { login } from '../../services/authService'
 import { useAuth } from '../../context/AuthContext'
 import useLang from '../../hooks/useLang'
+import GoogleLoginButton from '../../components/GoogleLoginButton/GoogleLoginButton'
 
 const Login = () => {
     const [form, setForm] = useState({ email: '', password: '' })
@@ -126,6 +127,14 @@ const Login = () => {
                         {lang === 'es' ? 'Iniciar sesión' : 'Sign in'}
                     </button>
                 </form>
+
+                <div className="flex items-center gap-3 my-5">
+                    <div className="flex-1 h-px bg-gray-200" />
+                    <span className="text-xs text-gray-400">{lang === 'es' ? 'o' : 'or'}</span>
+                    <div className="flex-1 h-px bg-gray-200" />
+                </div>
+
+                <GoogleLoginButton />
 
                 <p className="text-center text-md text-black mt-6">
                     {lang === 'es' ? '¿No tienes cuenta? ' : "Don't have an account? "}
