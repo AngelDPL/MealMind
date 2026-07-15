@@ -5,7 +5,7 @@ from app.decorators import premium_required
 from app.models import User, UserPreference, MealPlan, MealPlanEntry, Recipe, Ingredient, Food
 from app.services.openai_service import generate_meal_plan
 from app.services.food_catalog_service import get_filtered_catalog
-from app.extensions import db
+from app.extensions import db, limiter
 
 ai_bp = Blueprint("ai", __name__)
 
@@ -64,6 +64,7 @@ def _validate_plan_against_allergies_by_food(plan_data, allergies, lang):
 
 @ai_bp.route("/generate-plan", methods=["POST"])
 @premium_required
+@limiter.limit("15 per hour")
 def generate_plan():
     user_id = get_jwt_identity()
     user = User.query.get(user_id)
@@ -116,6 +117,7 @@ def generate_plan():
 
 @ai_bp.route("/plans", methods=["POST"])
 @premium_required
+@limiter.limit("20 per hour")
 def save_plan():
     user_id = get_jwt_identity()
     data = request.get_json() or {}

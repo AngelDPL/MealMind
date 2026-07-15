@@ -2,7 +2,7 @@ import os
 import stripe
 from flask import Blueprint, request, jsonify
 from datetime import datetime, timezone
-from app.extensions import db
+from app.extensions import db, limiter
 from app.models import User, Subscription
 
 stripe_webhook_bp = Blueprint("stripe_webhook", __name__)
@@ -11,6 +11,7 @@ WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
 
 
 @stripe_webhook_bp.route("/webhook", methods=["POST"])
+@limiter.exempt
 def stripe_webhook():
     payload = request.data
     sig_header = request.headers.get("Stripe-Signature")

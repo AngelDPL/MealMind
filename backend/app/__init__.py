@@ -1,5 +1,5 @@
-from flask import Flask
-from .extensions import db, jwt, cors, migrate
+from flask import Flask, jsonify
+from .extensions import db, jwt, cors, migrate, limiter
 from config import Config
 from sqlalchemy import select as sa_select
 
@@ -18,6 +18,7 @@ def create_app():
         "https://www.mealmind.cc"
     ]}})
     migrate.init_app(app, db)
+    limiter.init_app(app)
 
     from .routes.auth import auth_bp
     from .routes.recipes import recipes_bp
@@ -60,5 +61,9 @@ def create_app():
                     db.session.add(Food(**f))
             db.session.commit()
             print("[SEED] Foods seeded automatically")
+
+    @app.errorhandler(429)
+    def ratelimit_handler(e):
+        return jsonify({"error": "Too many requests. Please try again later."}), 429
 
     return app

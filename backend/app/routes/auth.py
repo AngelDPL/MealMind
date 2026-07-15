@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from sqlalchemy import select
-from app.extensions import db
+from app.extensions import db, limiter
 from app.models import User
 from app.utils import create_starter_recipes
 from app.services.emails import (
@@ -18,6 +18,7 @@ def validate_fields(data, fields):
 
 
 @auth_bp.route("/register", methods=["POST"])
+@limiter.limit("10 per 15 minutes")
 def register():
     data = request.get_json()
 
@@ -57,6 +58,7 @@ def register():
 
 
 @auth_bp.route("/login", methods=["POST"])
+@limiter.limit("10 per 15 minutes")
 def login():
     data = request.get_json()
 
@@ -169,6 +171,7 @@ def change_password():
 
 
 @auth_bp.route("/forgot-password", methods=["POST"])
+@limiter.limit("5 per 15 minutes")
 def forgot_password():
     data = request.get_json()
     user = db.session.execute(
