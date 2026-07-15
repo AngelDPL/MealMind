@@ -1,7 +1,7 @@
 import os
 import stripe
 from flask import Blueprint, request, jsonify
-from datetime import datetime
+from datetime import datetime, timezone
 from app.extensions import db
 from app.models import User, Subscription
 
@@ -91,14 +91,13 @@ def _handle_subscription_updated(stripe_sub):
     period_end = _get_period_end(stripe_sub)
 
     subscription.status = stripe_sub["status"]
-    subscription.current_period_end = (
-        datetime.fromtimestamp(period_end) if period_end else None
-    )
+    subscription.current_period_end = datetime.fromtimestamp(period_end) if period_end else None
     subscription.trial_end = (
-        datetime.fromtimestamp(stripe_sub["trial_end"])
-        if stripe_sub["trial_end"]
-        else None
+        datetime.fromtimestamp(stripe_sub["trial_end"]) if stripe_sub["trial_end"] else None
     )
+
+    if stripe_sub["status"] != "past_due":
+        subscription.past_due_since = None
 
     db.session.commit()
 
@@ -115,9 +114,7 @@ def _handle_subscription_deleted(stripe_sub):
 
 
 def _handle_payment_failed(invoice):
-    stripe_subscription_id = (
-        invoice["subscription"] if "subscription" in invoice else None
-    )
+    stripe_subscription_id = invoice["subscription"] if "subscription" in invoice else None
     if not stripe_subscription_id:
         return
 
@@ -127,5 +124,7 @@ def _handle_payment_failed(invoice):
     if not subscription:
         return
 
+    if subscription.status != "past_due":
+        subscription.past_due_since = datetime.now(timezone.utc)
     subscription.status = "past_due"
     db.session.commit()
