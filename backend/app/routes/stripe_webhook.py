@@ -69,9 +69,13 @@ def _handle_checkout_completed(session):
     subscription.stripe_customer_id = stripe_customer_id
     subscription.stripe_subscription_id = stripe_subscription_id
     subscription.status = stripe_sub["status"]
-    subscription.current_period_end = datetime.fromtimestamp(period_end) if period_end else None
+    subscription.current_period_end = (
+        datetime.fromtimestamp(period_end) if period_end else None
+    )
     subscription.trial_end = (
-        datetime.fromtimestamp(stripe_sub["trial_end"]) if stripe_sub["trial_end"] else None
+        datetime.fromtimestamp(stripe_sub["trial_end"])
+        if stripe_sub["trial_end"]
+        else None
     )
 
     db.session.commit()
@@ -87,9 +91,13 @@ def _handle_subscription_updated(stripe_sub):
     period_end = _get_period_end(stripe_sub)
 
     subscription.status = stripe_sub["status"]
-    subscription.current_period_end = datetime.fromtimestamp(period_end) if period_end else None
+    subscription.current_period_end = (
+        datetime.fromtimestamp(period_end) if period_end else None
+    )
     subscription.trial_end = (
-        datetime.fromtimestamp(stripe_sub["trial_end"]) if stripe_sub["trial_end"] else None
+        datetime.fromtimestamp(stripe_sub["trial_end"])
+        if stripe_sub["trial_end"]
+        else None
     )
 
     db.session.commit()
@@ -107,7 +115,9 @@ def _handle_subscription_deleted(stripe_sub):
 
 
 def _handle_payment_failed(invoice):
-    stripe_subscription_id = invoice.get("subscription")
+    stripe_subscription_id = (
+        invoice["subscription"] if "subscription" in invoice else None
+    )
     if not stripe_subscription_id:
         return
 
