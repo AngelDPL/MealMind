@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import useLang from '../../hooks/useLang'
 
@@ -23,9 +23,9 @@ const Navbar = () => {
         <nav className="sticky top-0 z-50 bg-white/10 backdrop-blur-md border-b border-white/20">
             <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
 
-                <div className="flex items-center gap-2 font-bold text-white text-4xl">
+                <Link to="/recipes" className="flex items-center gap-2 font-bold text-white text-4xl no-underline hover:opacity-90 transition">
                     🥗 <span className="hidden sm:inline tracking-wide">MealMind</span>
-                </div>
+                </Link>
 
                 <div className="hidden md:flex items-center gap-1">
                     <NavLink

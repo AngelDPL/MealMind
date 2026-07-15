@@ -31,9 +31,7 @@ const STEPS = {
 
 const BrokyBubble = ({ children }) => (
     <div className="flex items-start gap-2 mb-3">
-        <span className="text-xl shrink-0" style={{ filter: 'grayscale(1) sepia(1) saturate(4) brightness(0.9) hue-rotate(-10deg)' }}>
-            🥦
-        </span>
+        <img src="/broky.png" alt="Broky" className="w-7 h-7 object-contain shrink-0" />
         <div className="bg-gray-100 rounded-2xl rounded-tl-lg px-4 py-2.5 text-lg text-gray-800 max-w-[85%]">
             {children}
         </div>
@@ -230,9 +228,6 @@ const BrokyChatModal = ({ onClose }) => {
 
                 <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
                     <div className="flex items-center gap-2">
-                        <span className="text-xl" style={{ filter: 'grayscale(1) sepia(1) saturate(4) brightness(0.9) hue-rotate(-10deg)' }}>
-                            🥦
-                        </span>
                         <span className="font-bold text-gray-800">Broky</span>
                     </div>
                     <button
