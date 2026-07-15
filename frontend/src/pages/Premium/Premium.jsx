@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
-import { createCheckoutSession } from '../../services/subscriptionService'
+import { createCheckoutSession, createPortalSession } from '../../services/subscriptionService'
 import useLang from '../../hooks/useLang'
 
 const Premium = () => {
     const { isPremium } = useAuth()
     const [loading, setLoading] = useState(false)
+    const [portalLoading, setPortalLoading] = useState(false)
     const [error, setError] = useState(null)
     const lang = useLang()
 
@@ -21,6 +22,21 @@ const Premium = () => {
                 : 'Could not start the payment process. Please try again.'
             )
             setLoading(false)
+        }
+    }
+
+    const handleManageSubscription = async () => {
+        setPortalLoading(true)
+        setError(null)
+        try {
+            const data = await createPortalSession()
+            window.location.href = data.portal_url
+        } catch (err) {
+            setError(lang === 'es'
+                ? 'No se pudo abrir la gestión de suscripción. Inténtalo de nuevo.'
+                : 'Could not open subscription management. Please try again.'
+            )
+            setPortalLoading(false)
         }
     }
 
@@ -42,11 +58,23 @@ const Premium = () => {
                         <p className="text-lg font-semibold text-black mb-2">
                             {lang === 'es' ? 'Ya eres Premium' : "You're already Premium"}
                         </p>
-                        <p className="text-gray-600 text-lg">
+                        <p className="text-gray-600 text-lg mb-6">
                             {lang === 'es'
                                 ? 'Tienes acceso completo al planificador con IA.'
                                 : 'You have full access to the AI meal planner.'}
                         </p>
+
+                        <button
+                            onClick={handleManageSubscription}
+                            disabled={portalLoading}
+                            className="w-full bg-blue-300 hover:bg-blue-500 text-gray-700 font-semibold py-2.5 rounded-xl transition border-none disabled:opacity-60"
+                        >
+                            {portalLoading
+                                ? (lang === 'es' ? 'Redirigiendo...' : 'Redirecting...')
+                                : (lang === 'es' ? 'Gestionar suscripción' : 'Manage subscription')}
+                        </button>
+
+                        {error && <p className="text-red-500 text-lg text-center mt-3">{error}</p>}
                     </div>
                 ) : (
                     <>
