@@ -76,6 +76,7 @@ const Navbar = () => {
                             }`
                         }
                     >
+                        <span className="text-xl">🥦</span>
                         <span className="hidden lg:inline">
                             {isPremium
                                 ? 'Premium'
@@ -143,16 +144,20 @@ const Navbar = () => {
                         to="/premium"
                         onClick={closeMenu}
                         className={({ isActive }) =>
-                            `flex items-center gap-2 px-3 py-2 rounded-xl text-lg font-medium transition ${isActive
+                            `flex items-center gap-1.5 px-3 py-2 ms-8 rounded-xl text-lg font-medium transition ${isActive
                                 ? 'bg-orange-500 text-white'
                                 : isPremium
                                     ? 'bg-orange-500 hover:bg-orange-600 text-white'
-                                    : 'text-neutral-300 hover:bg-orange-500 hover:text-white border border-neutral-700'
+                                    : 'text-neutral-300 hover:bg-orange-500 hover:text-white border border-neutral-700 hover:border-orange-500'
                             }`
                         }
                     >
-                        <img src="/broky.png" alt="Broky" className="w-5 h-5 object-contain shrink-0" />
-                        {isPremium ? 'Premium' : (lang === 'es' ? 'Hazte Premium' : 'Go Premium')}
+                        <span className="text-xl">🥦</span>
+                        <span className="hidden lg:inline">
+                            {isPremium
+                                ? 'Premium'
+                                : (lang === 'es' ? 'Hazte Premium' : 'Go Premium')}
+                        </span>
                     </NavLink>
                     <button
                         onClick={handleLogout}

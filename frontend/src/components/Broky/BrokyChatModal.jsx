@@ -31,7 +31,7 @@ const STEPS = {
 
 const BrokyBubble = ({ children }) => (
     <div className="flex items-start gap-2 mb-3">
-        <img src="/broky.png" alt="Broky" className="w-7 h-7 object-contain shrink-0" />
+        <span className="text-xl shrink-0">🥦</span>
         <div className="bg-neutral-800 rounded-2xl rounded-tl-lg px-4 py-2.5 text-lg text-white max-w-[85%]">
             {children}
         </div>
@@ -228,7 +228,7 @@ const BrokyChatModal = ({ onClose }) => {
 
                 <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-800">
                     <div className="flex items-center gap-2">
-                        <img src="/broky.png" alt="Broky" className="w-6 h-6 object-contain" />
+                        <span className="text-xl">🥦</span>
                         <span className="font-bold text-white">Broky</span>
                     </div>
                     <button
