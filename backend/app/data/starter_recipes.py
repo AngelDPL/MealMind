@@ -1,18 +1,5 @@
 STARTER_RECIPES = [
     {
-        "name": "Chicken with rice",
-        "name_es": "Pollo con arroz",
-        "description": "Classic high protein meal",
-        "description_es": "Comida clásica alta en proteínas",
-        "ingredients": [
-            ("Pechuga de pollo", 200),
-            ("Arroz blanco", 80),
-            ("Aceite de oliva", 10),
-            ("Sal", 2),
-            ("Pimienta negra", 1),
-        ]
-    },
-    {
         "name": "Tuna pasta",
         "name_es": "Pasta con atún",
         "description": "Quick and easy pasta with tuna",
@@ -387,17 +374,35 @@ STARTER_RECIPES = [
             ("Comino", 3),
         ]
     },
-    {
-        "name": "Fruit smoothie bowl",
-        "name_es": "Bowl de smoothie de frutas",
-        "description": "Fresh and energizing breakfast",
-        "description_es": "Desayuno fresco y energizante",
-        "ingredients": [
-            ("Plátano", 100),
-            ("Arándanos", 80),
-            ("Yogur griego", 150),
-            ("Avena", 40),
-            ("Miel", 10),
-        ]
-    },
 ]
+
+STARTER_RECIPE_IMAGES = {
+    "Tuna pasta": "https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8VHVuYSUyMHBhc3RhJTIwZm9vZCUyMGRpc2h8ZW58MHwwfHx8MTc4NDIyNjYyOXww&ixlib=rb-4.1.0&q=80&w=1080",
+    "Scrambled eggs with vegetables": "https://images.unsplash.com/photo-1632992468854-7b1d83134bc4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8U2NyYW1ibGVkJTIwZWdncyUyMHdpdGglMjB2ZWdldGFibGVzJTIwZm9vZCUyMGRpc2h8ZW58MHwwfHx8MTc4NDIyNjYzMHww&ixlib=rb-4.1.0&q=80&w=1080",
+    "Greek salad": "https://images.unsplash.com/photo-1606735584785-1848fdcaea57?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8R3JlZWslMjBzYWxhZCUyMGZvb2QlMjBkaXNofGVufDB8MHx8fDE3ODQyMjY2NTd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    "Salmon with broccoli": "https://images.unsplash.com/photo-1676300185165-3f543c1fcb72?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8U2FsbW9uJTIwd2l0aCUyMGJyb2Njb2xpJTIwZm9vZCUyMGRpc2h8ZW58MHwwfHx8MTc4NDIyNjYzMXww&ixlib=rb-4.1.0&q=80&w=1080",
+    "Lentil soup": "https://images.unsplash.com/photo-1568886875985-ef8a500f8d17?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8TGVudGlsJTIwc291cCUyMGZvb2QlMjBkaXNofGVufDB8MHx8fDE3ODQyMjY2MzJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    "Turkey sandwich": "https://images.unsplash.com/photo-1628191010210-a59de33e5941?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8VHVya2V5JTIwc2FuZHdpY2glMjBmb29kJTIwZGlzaHxlbnwwfDB8fHwxNzg0MjI2NjMzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+    "Avocado toast": "https://images.unsplash.com/photo-1588137378633-dea1336ce1e2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8QXZvY2FkbyUyMHRvYXN0JTIwZm9vZCUyMGRpc2h8ZW58MHwwfHx8MTc4NDIyNjYzNHww&ixlib=rb-4.1.0&q=80&w=1080",
+    "Beef stir fry": "https://images.unsplash.com/photo-1604908177453-7462950a6a3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8QmVlZiUyMHN0aXIlMjBmcnklMjBmb29kJTIwZGlzaHxlbnwwfDB8fHwxNzg0MjI2NjM1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    "Chickpea curry": "https://images.unsplash.com/photo-1582576163090-09d3b6f8a969?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8Q2hpY2twZWElMjBjdXJyeSUyMGZvb2QlMjBkaXNofGVufDB8MHx8fDE3ODQyMjY2MzZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    "Oatmeal with banana": "https://images.unsplash.com/photo-1598259298632-e785684cfa90?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8T2F0bWVhbCUyMHdpdGglMjBiYW5hbmElMjBmb29kJTIwZGlzaHxlbnwwfDB8fHwxNzg0MjI2NjM3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    "Grilled pork loin": "https://images.unsplash.com/photo-1532550907401-a500c9a57435?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8R3JpbGxlZCUyMHBvcmslMjBsb2luJTIwZm9vZCUyMGRpc2h8ZW58MHwwfHx8MTc4NDIyNjY1OXww&ixlib=rb-4.1.0&q=80&w=1080",
+    "Quinoa bowl": "https://images.unsplash.com/photo-1520066391310-428f06ebd602?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8UXVpbm9hJTIwYm93bCUyMGZvb2QlMjBkaXNofGVufDB8MHx8fDE3ODQyMjY2Mzl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    "Tuna salad": "https://images.unsplash.com/photo-1578687388049-079580e6eb2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8VHVuYSUyMHNhbGFkJTIwZm9vZCUyMGRpc2h8ZW58MHwwfHx8MTc4NDIyNjY1OXww&ixlib=rb-4.1.0&q=80&w=1080",
+    "Vegetable omelette": "https://images.unsplash.com/photo-1668283653825-37b80f055b05?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8VmVnZXRhYmxlJTIwb21lbGV0dGUlMjBmb29kJTIwZGlzaHxlbnwwfDB8fHwxNzg0MjI2NjQxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+    "Baked cod": "https://images.unsplash.com/photo-1764333580740-b327847301b1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8QmFrZWQlMjBjb2QlMjBmb29kJTIwZGlzaHxlbnwwfDB8fHwxNzg0MjI2Njg1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    "Pasta bolognese": "https://images.unsplash.com/photo-1579684947550-22e945225d9a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8UGFzdGElMjBib2xvZ25lc2UlMjBmb29kJTIwZGlzaHxlbnwwfDB8fHwxNzg0MjI2Njg1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    "Greek yogurt with berries": "https://images.unsplash.com/photo-1530259152377-3a014e1092e0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8R3JlZWslMjB5b2d1cnQlMjB3aXRoJTIwYmVycmllcyUyMGZvb2QlMjBkaXNofGVufDB8MHx8fDE3ODQyMjY2NDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    "Stuffed peppers": "https://images.unsplash.com/photo-1596464716059-f81da526557b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8U3R1ZmZlZCUyMHBlcHBlcnMlMjBmb29kJTIwZGlzaHxlbnwwfDB8fHwxNzg0MjI2NjQ1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    "Chicken caesar salad": "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8Q2hpY2tlbiUyMGNhZXNhciUyMHNhbGFkJTIwZm9vZCUyMGRpc2h8ZW58MHwwfHx8MTc4NDIyNjY4MHww&ixlib=rb-4.1.0&q=80&w=1080",
+    "Tofu stir fry": "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8VG9mdSUyMHN0aXIlMjBmcnklMjBmb29kJTIwZGlzaHxlbnwwfDB8fHwxNzg0MjI2NjgwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+    "Beef burger": "https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8QmVlZiUyMGJ1cmdlciUyMGZvb2QlMjBkaXNofGVufDB8MHx8fDE3ODQyMzU0MTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    "Mushroom risotto": "https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8TXVzaHJvb20lMjByaXNvdHRvJTIwZm9vZCUyMGRpc2h8ZW58MHwwfHx8MTc4NDIyNjY2MXww&ixlib=rb-4.1.0&q=80&w=1080",
+    "Sardine toast": "https://images.unsplash.com/photo-1612570964312-e0f339a84d6f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8U2FyZGluZSUyMHRvYXN0JTIwZm9vZCUyMGRpc2h8ZW58MHwwfHx8MTc4NDIyNjY2MXww&ixlib=rb-4.1.0&q=80&w=1080",
+    "Sweet potato bowl": "https://images.unsplash.com/photo-1604259597308-5321e8e4789c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8U3dlZXQlMjBwb3RhdG8lMjBib3dsJTIwZm9vZCUyMGRpc2h8ZW58MHwwfHx8MTc4NDIyNjY1MXww&ixlib=rb-4.1.0&q=80&w=1080",
+    "Pork tenderloin with vegetables": "https://images.unsplash.com/photo-1598515214146-dab39da1243d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8UG9yayUyMHRlbmRlcmxvaW4lMjB3aXRoJTIwdmVnZXRhYmxlcyUyMGZvb2QlMjBkaXNofGVufDB8MHx8fDE3ODQyMjY2NTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    "Tuna stuffed avocado": "https://images.unsplash.com/photo-1715611935696-a59ebf388252?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8VHVuYSUyMHN0dWZmZWQlMjBhdm9jYWRvJTIwZm9vZCUyMGRpc2h8ZW58MHwwfHx8MTc4NDIyNjY4N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+    "White bean soup": "https://images.unsplash.com/photo-1745173257132-a585c3727080?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8V2hpdGUlMjBiZWFuJTIwc291cCUyMGZvb2QlMjBkaXNofGVufDB8MHx8fDE3ODQyMjY2NzV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    "Chicken fajitas": "https://images.unsplash.com/photo-1689773976415-293dd893f77e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAwMzkyfDB8MXxzZWFyY2h8MXx8Q2hpY2tlbiUyMGZhaml0YXMlMjBmb29kJTIwZGlzaHxlbnwwfDB8fHwxNzg0MjI2Njc1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+}

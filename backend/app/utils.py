@@ -1,7 +1,7 @@
 from app.extensions import db
 from app.models.recipe import Recipe, Ingredient
 from app.models.food import Food
-from app.data.starter_recipes import STARTER_RECIPES
+from app.data.starter_recipes import STARTER_RECIPES, STARTER_RECIPE_IMAGES
 
 
 def create_starter_recipes(user_id):
@@ -12,6 +12,7 @@ def create_starter_recipes(user_id):
             description=r["description"],
             description_es=r.get("description_es"),
             user_id=user_id,
+            image_url=STARTER_RECIPE_IMAGES.get(r["name"]),
         )
         db.session.add(recipe)
         db.session.flush()
