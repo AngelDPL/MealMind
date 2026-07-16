@@ -32,7 +32,7 @@ const STEPS = {
 const BrokyBubble = ({ children }) => (
     <div className="flex items-start gap-2 mb-3">
         <img src="/broky.png" alt="Broky" className="w-7 h-7 object-contain shrink-0" />
-        <div className="bg-gray-100 rounded-2xl rounded-tl-lg px-4 py-2.5 text-lg text-gray-800 max-w-[85%]">
+        <div className="bg-neutral-800 rounded-2xl rounded-tl-lg px-4 py-2.5 text-lg text-white max-w-[85%]">
             {children}
         </div>
     </div>
@@ -40,7 +40,7 @@ const BrokyBubble = ({ children }) => (
 
 const UserBubble = ({ children }) => (
     <div className="flex justify-end mb-3">
-        <div className="bg-indigo-500 text-white rounded-2xl rounded-tr-lg px-4 py-2.5 text-lg max-w-[85%]">
+        <div className="bg-orange-500 text-white rounded-2xl rounded-tr-lg px-4 py-2.5 text-lg max-w-[85%]">
             {children}
         </div>
     </div>
@@ -224,15 +224,16 @@ const BrokyChatModal = ({ onClose }) => {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4" style={{ background: 'rgba(0,0,0,0.6)' }}>
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[85vh] flex flex-col">
+            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl shadow-2xl w-full max-w-lg max-h-[85vh] flex flex-col">
 
-                <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+                <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-800">
                     <div className="flex items-center gap-2">
-                        <span className="font-bold text-gray-800">Broky</span>
+                        <img src="/broky.png" alt="Broky" className="w-6 h-6 object-contain" />
+                        <span className="font-bold text-white">Broky</span>
                     </div>
                     <button
                         onClick={onClose}
-                        className="text-gray-400 hover:text-gray-600 bg-transparent border-none shadow-none text-xl leading-none"
+                        className="text-neutral-500 hover:text-neutral-300 bg-transparent border-none shadow-none text-xl leading-none"
                     >
                         ✕
                     </button>
@@ -253,13 +254,13 @@ const BrokyChatModal = ({ onClose }) => {
                                 {lang === 'es' ? '¿Qué plan armamos hoy?' : "What plan should we build today?"}
                             </BrokyBubble>
                             <div className="flex flex-col gap-2 ml-9">
-                                <button onClick={chooseToday} className="text-left px-4 py-2.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-xl text-lg font-medium transition border-none">
+                                <button onClick={chooseToday} className="text-left px-4 py-2.5 bg-neutral-800 hover:bg-neutral-700 text-orange-400 rounded-xl text-lg font-medium transition border-none">
                                     {lang === 'es' ? 'Solo hoy' : 'Just today'}
                                 </button>
-                                <button onClick={chooseWeek} className="text-left px-4 py-2.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-xl text-lg font-medium transition border-none">
+                                <button onClick={chooseWeek} className="text-left px-4 py-2.5 bg-neutral-800 hover:bg-neutral-700 text-orange-400 rounded-xl text-lg font-medium transition border-none">
                                     {lang === 'es' ? 'Toda la semana' : 'Whole week'}
                                 </button>
-                                <button onClick={choosePickDays} className="text-left px-4 py-2.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-xl text-lg font-medium transition border-none">
+                                <button onClick={choosePickDays} className="text-left px-4 py-2.5 bg-neutral-800 hover:bg-neutral-700 text-orange-400 rounded-xl text-lg font-medium transition border-none">
                                     {lang === 'es' ? 'Elegir días' : 'Pick days'}
                                 </button>
                             </div>
@@ -272,7 +273,7 @@ const BrokyChatModal = ({ onClose }) => {
                                 {lang === 'es' ? '¿Qué fecha de inicio quieres?' : 'What start date do you want?'}
                             </BrokyBubble>
                             <div className="ml-9 flex flex-col gap-2">
-                                <button onClick={chooseStartToday} className="text-left px-4 py-2.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-xl text-lg font-medium transition border-none">
+                                <button onClick={chooseStartToday} className="text-left px-4 py-2.5 bg-neutral-800 hover:bg-neutral-700 text-orange-400 rounded-xl text-lg font-medium transition border-none">
                                     {lang === 'es' ? 'Empezar hoy' : 'Start today'}
                                 </button>
                                 <div className="flex gap-2">
@@ -281,12 +282,12 @@ const BrokyChatModal = ({ onClose }) => {
                                         min={today}
                                         value={startDate}
                                         onChange={e => setStartDate(e.target.value)}
-                                        className="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl text-lg bg-gray-50 focus:outline-none focus:border-indigo-400 focus:bg-white transition"
+                                        className="flex-1 px-4 py-2.5 border border-neutral-700 rounded-xl text-lg bg-neutral-800 text-white focus:outline-none focus:border-orange-500/60 transition"
                                     />
                                     <button
                                         onClick={confirmCustomStartDate}
                                         disabled={!startDate}
-                                        className="px-4 py-2.5 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl text-lg font-semibold transition border-none disabled:opacity-40"
+                                        className="px-4 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-lg font-semibold transition border-none disabled:opacity-40"
                                     >
                                         {lang === 'es' ? 'Usar fecha' : 'Use date'}
                                     </button>
@@ -307,8 +308,8 @@ const BrokyChatModal = ({ onClose }) => {
                                             key={day}
                                             onClick={() => toggleDay(day)}
                                             className={`px-3 py-2 rounded-xl text-xs font-semibold transition border-none ${selectedDays.includes(day)
-                                                ? 'bg-indigo-500 text-white'
-                                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                                ? 'bg-orange-500 text-white'
+                                                : 'bg-neutral-800 text-neutral-400 hover:bg-neutral-700'
                                                 }`}
                                         >
                                             {DAY_LABELS[lang][day]}
@@ -318,7 +319,7 @@ const BrokyChatModal = ({ onClose }) => {
                                 <button
                                     onClick={confirmPickedDays}
                                     disabled={selectedDays.length === 0}
-                                    className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2.5 rounded-xl transition border-none disabled:opacity-40"
+                                    className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 rounded-xl transition border-none disabled:opacity-40"
                                 >
                                     {lang === 'es' ? 'Continuar' : 'Continue'}
                                 </button>
@@ -337,11 +338,11 @@ const BrokyChatModal = ({ onClose }) => {
                                     min="100"
                                     value={maxCalories}
                                     onChange={e => setMaxCalories(e.target.value)}
-                                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-lg bg-gray-50 focus:outline-none focus:border-indigo-400 focus:bg-white transition"
+                                    className="w-full px-4 py-2.5 border border-neutral-700 rounded-xl text-lg bg-neutral-800 text-white focus:outline-none focus:border-orange-500/60 transition"
                                 />
                                 <button
                                     onClick={confirmCalories}
-                                    className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2.5 rounded-xl transition border-none"
+                                    className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 rounded-xl transition border-none"
                                 >
                                     {lang === 'es' ? 'Continuar' : 'Continue'}
                                 </button>
@@ -360,11 +361,11 @@ const BrokyChatModal = ({ onClose }) => {
                                     value={ingredientsInput}
                                     onChange={e => setIngredientsInput(e.target.value)}
                                     placeholder={lang === 'es' ? 'pollo, arroz, brócoli' : 'chicken, rice, broccoli'}
-                                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-lg bg-gray-50 focus:outline-none focus:border-indigo-400 focus:bg-white transition"
+                                    className="w-full px-4 py-2.5 border border-neutral-700 rounded-xl text-lg bg-neutral-800 text-white placeholder-neutral-500 focus:outline-none focus:border-orange-500/60 transition"
                                 />
                                 <button
                                     onClick={confirmIngredients}
-                                    className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2.5 rounded-xl transition border-none"
+                                    className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 rounded-xl transition border-none"
                                 >
                                     {lang === 'es' ? 'Continuar' : 'Continue'}
                                 </button>
@@ -393,11 +394,11 @@ const BrokyChatModal = ({ onClose }) => {
                                     value={extraAllergiesInput}
                                     onChange={e => setExtraAllergiesInput(e.target.value)}
                                     placeholder={lang === 'es' ? 'ej. lácteos' : 'e.g. dairy'}
-                                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-lg bg-gray-50 focus:outline-none focus:border-indigo-400 focus:bg-white transition"
+                                    className="w-full px-4 py-2.5 border border-neutral-700 rounded-xl text-lg bg-neutral-800 text-white placeholder-neutral-500 focus:outline-none focus:border-orange-500/60 transition"
                                 />
                                 <button
                                     onClick={handleGenerate}
-                                    className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2.5 rounded-xl transition border-none"
+                                    className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 rounded-xl transition border-none"
                                 >
                                     {lang === 'es' ? 'Generar plan' : 'Generate plan'}
                                 </button>
@@ -407,8 +408,8 @@ const BrokyChatModal = ({ onClose }) => {
 
                     {step === STEPS.GENERATING && (
                         <div className="flex flex-col items-center justify-center py-10 gap-3">
-                            <div className="w-10 h-10 border-4 border-indigo-200 border-t-indigo-500 rounded-full animate-spin" />
-                            <p className="text-gray-600 text-lg">
+                            <div className="w-10 h-10 border-4 border-neutral-700 border-t-orange-500 rounded-full animate-spin" />
+                            <p className="text-neutral-400 text-lg">
                                 {lang === 'es' ? 'Broky está cocinando tu plan...' : 'Broky is cooking up your plan...'}
                             </p>
                         </div>
@@ -424,7 +425,7 @@ const BrokyChatModal = ({ onClose }) => {
                             <div className="ml-9">
                                 <button
                                     onClick={handleGenerate}
-                                    className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2.5 rounded-xl transition border-none"
+                                    className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 rounded-xl transition border-none"
                                 >
                                     {lang === 'es' ? 'Reintentar' : 'Try again'}
                                 </button>
@@ -439,7 +440,7 @@ const BrokyChatModal = ({ onClose }) => {
                             </BrokyBubble>
 
                             {result.allergy_warnings?.length > 0 && (
-                                <div className="ml-9 bg-red-50 text-red-600 text-xs px-4 py-2.5 rounded-xl mb-4">
+                                <div className="ml-9 bg-red-500/10 border border-red-500/30 text-red-400 text-xs px-4 py-2.5 rounded-xl mb-4">
                                     {lang === 'es'
                                         ? 'Broky pudo haberse equivocado en algunas comidas marcadas abajo — revísalas antes de guardar.'
                                         : 'Broky may have slipped up on some meals marked below — please review before saving.'}
@@ -448,8 +449,8 @@ const BrokyChatModal = ({ onClose }) => {
 
                             <div className="ml-9 flex flex-col gap-3 mb-4">
                                 {result.plan.days.map(day => (
-                                    <div key={day.day} className="bg-gray-50 rounded-xl p-3">
-                                        <p className="font-semibold text-lg text-gray-800 mb-2">
+                                    <div key={day.day} className="bg-neutral-800/60 rounded-xl p-3">
+                                        <p className="font-semibold text-lg text-white mb-2">
                                             {DAY_LABELS[lang][day.day] || day.day}
                                         </p>
                                         <div className="flex flex-col gap-1.5">
@@ -459,8 +460,8 @@ const BrokyChatModal = ({ onClose }) => {
                                                 )
                                                 return (
                                                     <div key={meal.type} className="flex items-center justify-between text-xs">
-                                                        <span className="text-gray-500">{MEAL_LABELS[lang][meal.type]}</span>
-                                                        <span className={`font-medium ${hasWarning ? 'text-red-600' : 'text-gray-700'}`}>
+                                                        <span className="text-neutral-500">{MEAL_LABELS[lang][meal.type]}</span>
+                                                        <span className={`font-medium ${hasWarning ? 'text-red-400' : 'text-neutral-300'}`}>
                                                             {meal.name} {hasWarning && '⚠️'}
                                                         </span>
                                                     </div>
@@ -472,21 +473,21 @@ const BrokyChatModal = ({ onClose }) => {
                             </div>
 
                             {errorMsg && (
-                                <div className="ml-9 bg-red-50 text-red-600 text-xs px-4 py-2.5 rounded-xl mb-3">
+                                <div className="ml-9 bg-red-500/10 border border-red-500/30 text-red-400 text-xs px-4 py-2.5 rounded-xl mb-3">
                                     {errorMsg}
                                 </div>
                             )}
 
                             <div className="ml-9 flex flex-col gap-2">
                                 {saved ? (
-                                    <div className="bg-green-50 text-green-600 text-lg px-4 py-2.5 rounded-xl text-center font-medium">
+                                    <div className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-lg px-4 py-2.5 rounded-xl text-center font-medium">
                                         {lang === 'es' ? 'Plan guardado' : 'Plan saved'}
                                     </div>
                                 ) : (
                                     <button
                                         onClick={handleSave}
                                         disabled={saving}
-                                        className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2.5 rounded-xl transition border-none disabled:opacity-60"
+                                        className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 rounded-xl transition border-none disabled:opacity-60"
                                     >
                                         {saving
                                             ? (lang === 'es' ? 'Guardando...' : 'Saving...')
@@ -495,7 +496,7 @@ const BrokyChatModal = ({ onClose }) => {
                                 )}
                                 <button
                                     onClick={resetFlow}
-                                    className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2.5 rounded-xl transition border-none"
+                                    className="w-full bg-neutral-800 hover:bg-neutral-700 text-white font-semibold py-2.5 rounded-xl transition border border-neutral-700"
                                 >
                                     {lang === 'es' ? 'Generar otro' : 'Generate another'}
                                 </button>

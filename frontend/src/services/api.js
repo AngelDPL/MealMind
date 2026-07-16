@@ -9,7 +9,11 @@ const getHeaders = () => {
 
 const handleResponse = async (res) => {
     const data = await res.json()
-    if (!res.ok) throw new Error(data.error || 'Request failed')
+    if (!res.ok) {
+        const error = new Error(data.error || 'Request failed')
+        if (data.used_in) error.usedIn = data.used_in
+        throw error
+    }
     return data
 }
 

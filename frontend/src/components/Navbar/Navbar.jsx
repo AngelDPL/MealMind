@@ -20,7 +20,7 @@ const Navbar = () => {
     if (!user) return null
 
     return (
-        <nav className="sticky top-0 z-50 bg-white/10 backdrop-blur-md border-b border-white/20">
+        <nav className="sticky top-0 z-50 bg-neutral-950/90 backdrop-blur-md border-b border-neutral-800">
             <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
 
                 <Link to="/recipes" className="flex items-center gap-2 font-bold text-white text-4xl no-underline hover:opacity-90 transition">
@@ -32,8 +32,8 @@ const Navbar = () => {
                         to="/recipes"
                         className={({ isActive }) =>
                             `px-4 py-2 rounded-xl text-lg font-medium transition ${isActive
-                                ? 'bg-white/20 text-white'
-                                : 'text-white/70 hover:bg-white/10 hover:text-white'
+                                ? 'bg-orange-500/15 text-orange-400'
+                                : 'text-neutral-400 hover:bg-neutral-800 hover:text-white'
                             }`
                         }
                     >
@@ -45,8 +45,8 @@ const Navbar = () => {
                         to="/meal-planner"
                         className={({ isActive }) =>
                             `px-4 py-2 rounded-xl text-lg font-medium transition ${isActive
-                                ? 'bg-white/20 text-white'
-                                : 'text-white/70 hover:bg-white/10 hover:text-white'
+                                ? 'bg-orange-500/15 text-orange-400'
+                                : 'text-neutral-400 hover:bg-neutral-800 hover:text-white'
                             }`
                         }
                     >
@@ -58,8 +58,8 @@ const Navbar = () => {
                         to="/profile"
                         className={({ isActive }) =>
                             `px-4 py-2 rounded-xl text-lg font-medium transition ${isActive
-                                ? 'bg-white/20 text-white'
-                                : 'text-white/70 hover:bg-white/10 hover:text-white'
+                                ? 'bg-orange-500/15 text-orange-400'
+                                : 'text-neutral-400 hover:bg-neutral-800 hover:text-white'
                             }`
                         }
                     >
@@ -68,20 +68,17 @@ const Navbar = () => {
                     <NavLink
                         to="/premium"
                         className={({ isActive }) =>
-                            `px-3 py-2 ms-8 rounded-xl text-lg font-medium transition ${isActive
-                                ? 'bg-amber-400 text-white'
+                            `flex items-center gap-1.5 px-3 py-2 ms-8 rounded-xl text-lg font-medium transition ${isActive
+                                ? 'bg-orange-500 text-white'
                                 : isPremium
-                                    ? 'bg-amber-400 hover:bg-amber-500'
-                                    : 'text-white hover:bg-amber-400 hover:text-white'
+                                    ? 'bg-orange-500 hover:bg-orange-600 text-white'
+                                    : 'text-neutral-300 hover:bg-orange-500 hover:text-white border border-neutral-700 hover:border-orange-500'
                             }`
                         }
                     >
-                        <span style={{ filter: 'grayscale(1) sepia(1) saturate(4) brightness(0.9) hue-rotate(-10deg)' }}>
-                            🥦
-                        </span>
                         <span className="hidden lg:inline">
                             {isPremium
-                                ? ''
+                                ? 'Premium'
                                 : (lang === 'es' ? 'Hazte Premium' : 'Go Premium')}
                         </span>
                     </NavLink>
@@ -89,7 +86,7 @@ const Navbar = () => {
 
                 <button
                     onClick={handleLogout}
-                    className="hidden md:block text-lg font-medium text-white/80 hover:text-white bg-white/10 hover:bg-white/20 px-4 py-2 rounded-xl transition border-none shadow-none"
+                    className="hidden md:block text-lg font-medium text-neutral-400 hover:text-white bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 px-4 py-2 rounded-xl transition shadow-none"
                 >
                     <span className="hidden lg:inline">{lang === 'es' ? 'Cerrar sesión' : 'Sign out'}</span>
                     <span className="lg:hidden">{lang === 'es' ? 'Salir' : 'Out'}</span>
@@ -105,14 +102,14 @@ const Navbar = () => {
             </div>
 
             {menuOpen && (
-                <div className="md:hidden bg-black/80 backdrop-blur-md border-t border-white/20 flex flex-col px-4 py-3 gap-1">
+                <div className="md:hidden bg-neutral-950 border-t border-neutral-800 flex flex-col px-4 py-3 gap-1">
                     <NavLink
                         to="/recipes"
                         onClick={closeMenu}
                         className={({ isActive }) =>
                             `px-4 py-2 rounded-xl text-lg font-medium transition ${isActive
-                                ? 'bg-white/20 text-white'
-                                : 'text-white hover:bg-white/10 hover:text-white'
+                                ? 'bg-orange-500/15 text-orange-400'
+                                : 'text-neutral-300 hover:bg-neutral-800 hover:text-white'
                             }`
                         }
                     >
@@ -123,8 +120,8 @@ const Navbar = () => {
                         onClick={closeMenu}
                         className={({ isActive }) =>
                             `px-4 py-2 rounded-xl text-lg font-medium transition ${isActive
-                                ? 'bg-white/20 text-white'
-                                : 'text-white hover:bg-white/10 hover:text-white'
+                                ? 'bg-orange-500/15 text-orange-400'
+                                : 'text-neutral-300 hover:bg-neutral-800 hover:text-white'
                             }`
                         }
                     >
@@ -135,8 +132,8 @@ const Navbar = () => {
                         onClick={closeMenu}
                         className={({ isActive }) =>
                             `px-4 py-2 rounded-xl text-lg font-medium transition ${isActive
-                                ? 'bg-white/20 text-white'
-                                : 'text-white hover:bg-white/10 hover:text-white'
+                                ? 'bg-orange-500/15 text-orange-400'
+                                : 'text-neutral-300 hover:bg-neutral-800 hover:text-white'
                             }`
                         }
                     >
@@ -146,22 +143,20 @@ const Navbar = () => {
                         to="/premium"
                         onClick={closeMenu}
                         className={({ isActive }) =>
-                            `px-3 py-2 rounded-xl text-lg font-medium transition ${isActive
-                                ? 'bg-amber-400 text-white'
+                            `flex items-center gap-2 px-3 py-2 rounded-xl text-lg font-medium transition ${isActive
+                                ? 'bg-orange-500 text-white'
                                 : isPremium
-                                    ? 'bg-amber-400 hover:bg-amber-500'
-                                    : 'text-white hover:bg-amber-400 hover:text-white'
+                                    ? 'bg-orange-500 hover:bg-orange-600 text-white'
+                                    : 'text-neutral-300 hover:bg-orange-500 hover:text-white border border-neutral-700'
                             }`
                         }
                     >
-                        <span style={{ filter: 'grayscale(1) sepia(1) saturate(4) brightness(0.9) hue-rotate(-10deg)' }}>
-                            🥦
-                        </span>{' '}
+                        <img src="/broky.png" alt="Broky" className="w-5 h-5 object-contain shrink-0" />
                         {isPremium ? 'Premium' : (lang === 'es' ? 'Hazte Premium' : 'Go Premium')}
                     </NavLink>
                     <button
                         onClick={handleLogout}
-                        className="text-left px-4 py-2 rounded-xl text-lg font-medium text-white hover:text-white hover:bg-white/10 transition border-none shadow-none"
+                        className="text-left px-4 py-2 rounded-xl text-lg font-medium text-neutral-300 hover:text-white hover:bg-neutral-800 transition border-none shadow-none"
                     >
                         {lang === 'es' ? 'Cerrar sesión' : 'Sign out'}
                     </button>

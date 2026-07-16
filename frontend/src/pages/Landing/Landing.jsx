@@ -68,16 +68,17 @@ const Landing = () => {
     }, [])
 
     return (
-        <div
-            className="min-h-screen flex flex-col"
-            style={{
-                backgroundImage: 'url(https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600)',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundAttachment: 'fixed',
-            }}
-        >
-            <div className="absolute inset-0 z-0" />
+        <div className="min-h-screen flex flex-col bg-neutral-950 relative overflow-hidden">
+
+            <div
+                className="absolute inset-0 opacity-30"
+                style={{
+                    backgroundImage: 'url(https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600)',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/60 via-neutral-950/85 to-neutral-950" />
 
             <div className="relative z-10 flex flex-col min-h-screen">
 
@@ -89,13 +90,13 @@ const Landing = () => {
                     <div className="flex gap-3 items-center ml-auto">
                         <Link
                             to="/login"
-                            className="px-5 py-2 text-xl font-semibold text-white backdrop-blur-md border border-white/40 rounded-xl hover:bg-white/10 transition whitespace-nowrap"
+                            className="px-5 py-2 text-xl font-semibold text-white border border-neutral-700 rounded-xl hover:bg-neutral-800 transition whitespace-nowrap"
                         >
                             {t.signin}
                         </Link>
                         <Link
                             to="/register"
-                            className="px-5 py-2 text-xl font-semibold text-white bg-indigo-500 hover:bg-indigo-600 rounded-xl transition whitespace-nowrap"
+                            className="px-5 py-2 text-xl font-semibold text-white bg-orange-500 hover:bg-orange-600 rounded-xl transition whitespace-nowrap"
                         >
                             {t.cta}
                         </Link>
@@ -105,26 +106,26 @@ const Landing = () => {
                 <div
                     className={`flex flex-col items-center justify-center text-center px-4 py-24 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
                 >
-                    <div className="inline-block bg-white/20 backdrop-blur-md text-white text-2xl font-semibold px-4 py-1.5 rounded-full mb-6 border border-white/30">
+                    <div className="inline-block bg-orange-500/10 text-orange-400 text-2xl font-semibold px-4 py-1.5 rounded-full mb-6 border border-orange-500/30">
                         {t.badge}.
                     </div>
-                    <h1 className="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-4 drop-shadow-lg">
+                    <h1 className="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-4">
                         {t.headline1}<br />
-                        <span className="text-indigo-300">{t.headline2}</span>
+                        <span className="text-orange-400">{t.headline2}</span>
                     </h1>
-                    <p className="p-5 text-white bg-black/60 rounded-xl text-lg md:text-xl max-w-xl mb-10 leading-relaxed">
+                    <p className="text-neutral-400 text-lg md:text-xl max-w-xl mb-10 leading-relaxed">
                         {t.sub}
                     </p>
                     <div className="flex gap-4 flex-wrap justify-center">
                         <Link
                             to="/register"
-                            className="px-8 py-3.5 bg-indigo-500 hover:bg-indigo-600 text-white font-bold rounded-2xl text-base transition active:scale-95 shadow-lg"
+                            className="px-8 py-3.5 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-2xl text-base transition active:scale-95 shadow-lg"
                         >
                             {t.cta}
                         </Link>
                         <Link
                             to="/login"
-                            className="px-8 py-3.5 bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-bold rounded-2xl text-base transition active:scale-95 border border-white/30"
+                            className="px-8 py-3.5 bg-neutral-900 hover:bg-neutral-800 text-white font-bold rounded-2xl text-base transition active:scale-95 border border-neutral-700"
                         >
                             {t.signin}
                         </Link>
@@ -136,18 +137,18 @@ const Landing = () => {
                         {t.features.map((f, i) => (
                             <div
                                 key={i}
-                                className={`bg-white/70 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/50 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                                className={`bg-neutral-900 border border-neutral-800 rounded-2xl p-6 transition-all duration-700 hover:border-neutral-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                                 style={{ transitionDelay: `${200 + i * 100}ms` }}
                             >
                                 <div className="text-4xl mb-4">{f.emoji}</div>
-                                <h3 className="font-bold text-gray-800 text-xl mb-3">{f.title}</h3>
-                                <p className="text-gray-600 text-lg leading-relaxed">{f.description}</p>
+                                <h3 className="font-bold text-white text-xl mb-3">{f.title}</h3>
+                                <p className="text-neutral-400 text-lg leading-relaxed">{f.description}</p>
                             </div>
                         ))}
                     </div>
                 </div>
 
-                <div className="mt-auto text-center pb-6 text-white/80 text-md">
+                <div className="mt-auto text-center pb-6 text-neutral-500 text-md">
                     {t.footer}
                 </div>
             </div>

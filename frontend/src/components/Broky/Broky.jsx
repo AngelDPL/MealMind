@@ -15,10 +15,10 @@ const Broky = () => {
         <>
             <button
                 onClick={() => setModalOpen(true)}
-                className="fixed bottom-6 right-6 z-40 w-16 h-16 rounded-full bg-white shadow-2xl border-4 border-green-400 hover:scale-110 transition active:scale-95 flex items-center justify-center overflow-hidden"
+                className="fixed bottom-6 right-6 z-40 w-20 h-20 rounded-full bg-green-200 shadow-2xl border-4 border-green-400 hover:scale-110 transition active:scale-95 flex items-center justify-center overflow-hidden text-4xl"
                 aria-label="Broky"
             >
-                <img src="/broky.png" alt="Broky" className="w-12 h-12 object-contain" />
+                🥦
             </button>
 
             {modalOpen && (

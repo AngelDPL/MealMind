@@ -82,10 +82,10 @@ const t = {
 }
 
 const SuccessMsg = ({ msg }) => (
-    <div className="bg-green-50 text-green-600 text-md px-4 py-3 rounded-xl mb-4">{msg}</div>
+    <div className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-md px-4 py-3 rounded-xl mb-4">{msg}</div>
 )
 const ErrorMsg = ({ msg }) => (
-    <div className="bg-red-50 text-red-600 text-md px-4 py-3 rounded-xl mb-4">{msg}</div>
+    <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-md px-4 py-3 rounded-xl mb-4">{msg}</div>
 )
 
 const DIETARY_STYLES = ['vegan', 'vegetarian', 'keto', 'paleo', 'mediterranean']
@@ -237,248 +237,263 @@ const Profile = () => {
     }
 
     return (
-        <div className="max-w-2xl mx-auto px-4 py-6 flex flex-col gap-6">
+        <div className="min-h-screen bg-neutral-950 relative overflow-hidden">
+            <div
+                className="absolute inset-0 opacity-25"
+                style={{
+                    backgroundImage: 'url(https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600)',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundAttachment: 'fixed',
+                }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/70 via-neutral-950/90 to-neutral-950" />
 
-            <h1 className="text-2xl font-bold text-white drop-shadow">{tx.title}</h1>
+            <div className="relative z-10 max-w-2xl mx-auto px-4 py-6 flex flex-col gap-6">
 
-            <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg p-6">
-                <h2 className="text-lg font-bold text-gray-800 mb-4">{tx.summaryTitle}</h2>
+                <h1 className="text-2xl font-bold text-white">{tx.title}</h1>
 
-                {summaryLoading ? (
-                    <div className="flex justify-center py-6">
-                        <div className="w-6 h-6 border-4 border-indigo-200 border-t-indigo-500 rounded-full animate-spin" />
-                    </div>
-                ) : (
-                    <>
-                        <div className="grid grid-cols-2 gap-3 mb-4">
-                            <div className="bg-indigo-50 rounded-xl p-4 text-center">
-                                <p className="text-2xl font-bold text-indigo-600">{recipeCount}</p>
-                                <p className="text-xs text-gray-500 mt-1">{tx.recipesCreated}</p>
-                            </div>
-                            <div className="bg-amber-50 rounded-xl p-4 text-center">
-                                <p className="text-2xl font-bold text-amber-600">{aiPlanCount}</p>
-                                <p className="text-xs text-gray-500 mt-1">{tx.aiPlansGenerated}</p>
-                            </div>
+                <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
+                    <h2 className="text-lg font-bold text-white mb-4">{tx.summaryTitle}</h2>
+
+                    {summaryLoading ? (
+                        <div className="flex justify-center py-6">
+                            <div className="w-6 h-6 border-4 border-neutral-700 border-t-orange-500 rounded-full animate-spin" />
                         </div>
-
-                        <h3 className="text-md font-semibold text-gray-600 mb-2">{tx.mealPlans}</h3>
-                        {mealPlanSummaries.length === 0 ? (
-                            <p className="text-md text-gray-400">{tx.noMealPlans}</p>
-                        ) : (
-                            <div className="flex flex-col gap-2">
-                                {mealPlanSummaries.map(plan => (
-                                    <div key={plan.id} className="flex items-center justify-between bg-gray-50 rounded-xl px-4 py-2.5">
-                                        <span className="text-md text-gray-700">
-                                            {lang === 'es' ? 'Semana del' : 'Week of'} {plan.week_start_date}
-                                        </span>
-                                        <span className="text-md font-semibold text-gray-800">
-                                            {plan.totalCalories} {tx.caloriesTotal}
-                                        </span>
-                                    </div>
-                                ))}
+                    ) : (
+                        <>
+                            <div className="grid grid-cols-2 gap-3 mb-4">
+                                <div className="bg-orange-500/10 rounded-xl p-4 text-center">
+                                    <p className="text-2xl font-bold text-orange-400">{recipeCount}</p>
+                                    <p className="text-xs text-neutral-400 mt-1">{tx.recipesCreated}</p>
+                                </div>
+                                <div className="bg-amber-500/10 rounded-xl p-4 text-center">
+                                    <p className="text-2xl font-bold text-amber-400">{aiPlanCount}</p>
+                                    <p className="text-xs text-neutral-400 mt-1">{tx.aiPlansGenerated}</p>
+                                </div>
                             </div>
-                        )}
-                    </>
-                )}
-            </div>
 
-            <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg p-6">
-                <h2 className="text-lg font-bold text-gray-800 mb-1">{tx.preferencesTitle}</h2>
-                <p className="text-md text-gray-500 mb-4">{tx.preferencesDesc}</p>
-
-                {prefsSuccess && <SuccessMsg msg={prefsSuccess} />}
-                {prefsError && <ErrorMsg msg={prefsError} />}
-
-                {prefsLoading ? (
-                    <div className="flex justify-center py-4">
-                        <div className="w-6 h-6 border-4 border-indigo-200 border-t-indigo-500 rounded-full animate-spin" />
-                    </div>
-                ) : (
-                    <form onSubmit={handleSavePreferences} className="flex flex-col gap-4">
-                        <div>
-                            <label className="text-md font-medium text-gray-700 mb-1 block">{tx.allergies}</label>
-                            <input
-                                type="text"
-                                value={allergiesInput}
-                                onChange={e => setAllergiesInput(e.target.value)}
-                                placeholder={tx.allergiesPlaceholder}
-                                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-md bg-gray-50 focus:outline-none focus:border-indigo-400 focus:bg-white transition"
-                            />
-                        </div>
-                        <div>
-                            <label className="text-md font-medium text-gray-700 mb-1 block">{tx.preferredIngredients}</label>
-                            <input
-                                type="text"
-                                value={ingredientsInput}
-                                onChange={e => setIngredientsInput(e.target.value)}
-                                placeholder={tx.preferredIngredientsPlaceholder}
-                                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-md bg-gray-50 focus:outline-none focus:border-indigo-400 focus:bg-white transition"
-                            />
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div>
-                                <label className="text-md font-medium text-gray-700 mb-1 block">{tx.dietaryStyle}</label>
-                                <select
-                                    value={dietaryStyle}
-                                    onChange={e => setDietaryStyle(e.target.value)}
-                                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-md bg-gray-50 focus:outline-none focus:border-indigo-400 transition"
-                                >
-                                    <option value="">{tx.dietaryStyleNone}</option>
-                                    {DIETARY_STYLES.map(style => (
-                                        <option key={style} value={style}>{style}</option>
+                            <h3 className="text-md font-semibold text-neutral-300 mb-2">{tx.mealPlans}</h3>
+                            {mealPlanSummaries.length === 0 ? (
+                                <p className="text-md text-neutral-500">{tx.noMealPlans}</p>
+                            ) : (
+                                <div className="flex flex-col gap-2">
+                                    {mealPlanSummaries.map(plan => (
+                                        <div key={plan.id} className="flex items-center justify-between bg-neutral-800/60 rounded-xl px-4 py-2.5">
+                                            <span className="text-md text-neutral-300">
+                                                {lang === 'es' ? 'Semana del' : 'Week of'} {plan.week_start_date}
+                                            </span>
+                                            <span className="text-md font-semibold text-white">
+                                                {plan.totalCalories} {tx.caloriesTotal}
+                                            </span>
+                                        </div>
                                     ))}
-                                </select>
-                            </div>
+                                </div>
+                            )}
+                        </>
+                    )}
+                </div>
+
+                <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
+                    <h2 className="text-lg font-bold text-white mb-1 flex items-center gap-2">
+                        {tx.preferencesTitle}
+                    </h2>
+                    <p className="text-md text-neutral-400 mb-4">{tx.preferencesDesc}</p>
+
+                    {prefsSuccess && <SuccessMsg msg={prefsSuccess} />}
+                    {prefsError && <ErrorMsg msg={prefsError} />}
+
+                    {prefsLoading ? (
+                        <div className="flex justify-center py-4">
+                            <div className="w-6 h-6 border-4 border-neutral-700 border-t-orange-500 rounded-full animate-spin" />
+                        </div>
+                    ) : (
+                        <form onSubmit={handleSavePreferences} className="flex flex-col gap-4">
                             <div>
-                                <label className="text-md font-medium text-gray-700 mb-1 block">{tx.maxCalories}</label>
+                                <label className="text-md font-medium text-neutral-300 mb-1 block">{tx.allergies}</label>
                                 <input
-                                    type="number"
-                                    min="100"
-                                    value={maxCalories}
-                                    onChange={e => setMaxCalories(e.target.value)}
-                                    placeholder="700"
-                                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-md bg-gray-50 focus:outline-none focus:border-indigo-400 focus:bg-white transition"
+                                    type="text"
+                                    value={allergiesInput}
+                                    onChange={e => setAllergiesInput(e.target.value)}
+                                    placeholder={tx.allergiesPlaceholder}
+                                    className="w-full px-4 py-2.5 border border-neutral-700 rounded-xl text-md bg-neutral-800 text-white placeholder-neutral-500 focus:outline-none focus:border-orange-500/60 transition"
                                 />
                             </div>
+                            <div>
+                                <label className="text-md font-medium text-neutral-300 mb-1 block">{tx.preferredIngredients}</label>
+                                <input
+                                    type="text"
+                                    value={ingredientsInput}
+                                    onChange={e => setIngredientsInput(e.target.value)}
+                                    placeholder={tx.preferredIngredientsPlaceholder}
+                                    className="w-full px-4 py-2.5 border border-neutral-700 rounded-xl text-md bg-neutral-800 text-white placeholder-neutral-500 focus:outline-none focus:border-orange-500/60 transition"
+                                />
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="text-md font-medium text-neutral-300 mb-1 block">{tx.dietaryStyle}</label>
+                                    <select
+                                        value={dietaryStyle}
+                                        onChange={e => setDietaryStyle(e.target.value)}
+                                        className="w-full px-4 py-2.5 border border-neutral-700 rounded-xl text-md bg-neutral-800 text-white focus:outline-none focus:border-orange-500/60 transition"
+                                    >
+                                        <option value="">{tx.dietaryStyleNone}</option>
+                                        {DIETARY_STYLES.map(style => (
+                                            <option key={style} value={style}>{style}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="text-md font-medium text-neutral-300 mb-1 block">{tx.maxCalories}</label>
+                                    <input
+                                        type="number"
+                                        min="100"
+                                        value={maxCalories}
+                                        onChange={e => setMaxCalories(e.target.value)}
+                                        placeholder="700"
+                                        className="w-full px-4 py-2.5 border border-neutral-700 rounded-xl text-md bg-neutral-800 text-white placeholder-neutral-500 focus:outline-none focus:border-orange-500/60 transition"
+                                    />
+                                </div>
+                            </div>
+                            <button
+                                type="submit"
+                                disabled={prefsSaving}
+                                className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 rounded-xl transition active:scale-95 border-none disabled:opacity-60"
+                            >
+                                {prefsSaving ? '...' : tx.savePreferences}
+                            </button>
+                        </form>
+                    )}
+                </div>
+
+                <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
+                    <h2 className="text-lg font-bold text-white mb-1">{tx.usernameSection}</h2>
+                    <p className="text-md text-neutral-400">@{user?.username}</p>
+                </div>
+
+                <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
+                    <h2 className="text-lg font-bold text-white mb-1">{tx.emailSection}</h2>
+                    <p className="text-md text-neutral-400 mb-4">{tx.currentEmail}: <span className="font-medium text-neutral-200">{user?.email}</span></p>
+
+                    {emailSuccess && <SuccessMsg msg={emailSuccess} />}
+                    {emailError && <ErrorMsg msg={emailError} />}
+
+                    {emailPending ? (
+                        <div className="bg-orange-500/10 border border-orange-500/30 text-orange-300 text-md px-4 py-3 rounded-xl">
+                            <p className="font-semibold">{tx.emailPending} {emailPending}</p>
+                            <p className="mt-1 text-orange-400/80">{tx.emailPendingNote}</p>
+                        </div>
+                    ) : (
+                        <form onSubmit={handleEmailSubmit} className="flex flex-col gap-4">
+                            <div>
+                                <label className="text-md font-medium text-neutral-300 mb-1 block">{tx.newEmail}</label>
+                                <input
+                                    type="email"
+                                    value={emailForm.new_email}
+                                    onChange={e => setEmailForm({ ...emailForm, new_email: e.target.value })}
+                                    required
+                                    className="w-full px-4 py-2.5 border border-neutral-700 rounded-xl text-md bg-neutral-800 text-white placeholder-neutral-500 focus:outline-none focus:border-orange-500/60 transition"
+                                />
+                            </div>
+                            <div>
+                                <label className="text-md font-medium text-neutral-300 mb-1 block">{tx.confirmWithPassword}</label>
+                                <input
+                                    type="password"
+                                    value={emailForm.password}
+                                    onChange={e => setEmailForm({ ...emailForm, password: e.target.value })}
+                                    required
+                                    className="w-full px-4 py-2.5 border border-neutral-700 rounded-xl text-md bg-neutral-800 text-white focus:outline-none focus:border-orange-500/60 transition"
+                                />
+                            </div>
+                            <button
+                                type="submit"
+                                disabled={emailLoading}
+                                className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 rounded-xl transition active:scale-95 border-none disabled:opacity-60"
+                            >
+                                {emailLoading ? '...' : tx.sendConfirmation}
+                            </button>
+                        </form>
+                    )}
+                </div>
+
+                <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
+                    <h2 className="text-lg font-bold text-white mb-4">{tx.passwordSection}</h2>
+
+                    {passwordSuccess && <SuccessMsg msg={passwordSuccess} />}
+                    {passwordError && <ErrorMsg msg={passwordError} />}
+
+                    <form onSubmit={handlePasswordSubmit} className="flex flex-col gap-4">
+                        <div>
+                            <label className="text-md font-medium text-neutral-300 mb-1 block">{tx.currentPassword}</label>
+                            <div className="relative">
+                                <input
+                                    type={showCurrent ? 'text' : 'password'}
+                                    value={passwordForm.current_password}
+                                    onChange={e => setPasswordForm({ ...passwordForm, current_password: e.target.value })}
+                                    required
+                                    className="w-full px-4 py-2.5 pr-12 border border-neutral-700 rounded-xl text-md bg-neutral-800 text-white focus:outline-none focus:border-orange-500/60 transition"
+                                />
+                                <button type="button" onClick={() => setShowCurrent(!showCurrent)}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 bg-transparent border-none shadow-none p-0 text-xs text-neutral-500 hover:text-neutral-300">
+                                    {showCurrent ? 'hide' : 'show'}
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <label className="text-md font-medium text-neutral-300 mb-1 block">{tx.newPassword}</label>
+                            <div className="relative">
+                                <input
+                                    type={showNew ? 'text' : 'password'}
+                                    value={passwordForm.new_password}
+                                    onChange={e => setPasswordForm({ ...passwordForm, new_password: e.target.value })}
+                                    required
+                                    className="w-full px-4 py-2.5 pr-12 border border-neutral-700 rounded-xl text-md bg-neutral-800 text-white focus:outline-none focus:border-orange-500/60 transition"
+                                />
+                                <button type="button" onClick={() => setShowNew(!showNew)}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 bg-transparent border-none shadow-none p-0 text-xs text-neutral-500 hover:text-neutral-300">
+                                    {showNew ? 'hide' : 'show'}
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <label className="text-md font-medium text-neutral-300 mb-1 block">{tx.confirmPassword}</label>
+                            <div className="relative">
+                                <input
+                                    type={showConfirm ? 'text' : 'password'}
+                                    value={passwordForm.confirm_password}
+                                    onChange={e => setPasswordForm({ ...passwordForm, confirm_password: e.target.value })}
+                                    required
+                                    className={`w-full px-4 py-2.5 pr-12 border rounded-xl text-md bg-neutral-800 text-white focus:outline-none transition ${passwordForm.confirm_password
+                                            ? passwordsMatch
+                                                ? 'border-emerald-500/60 focus:border-emerald-500'
+                                                : 'border-red-500/60 focus:border-red-500'
+                                            : 'border-neutral-700 focus:border-orange-500/60'
+                                        }`}
+                                />
+                                <button type="button" onClick={() => setShowConfirm(!showConfirm)}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 bg-transparent border-none shadow-none p-0 text-xs text-neutral-500 hover:text-neutral-300">
+                                    {showConfirm ? 'hide' : 'show'}
+                                </button>
+                            </div>
+                            {passwordForm.confirm_password && (
+                                <p className={`text-xs mt-1 ${passwordsMatch ? 'text-emerald-400' : 'text-red-400'}`}>
+                                    {passwordsMatch ? tx.passwordMatch : tx.passwordNoMatch}
+                                </p>
+                            )}
                         </div>
                         <button
                             type="submit"
-                            disabled={prefsSaving}
-                            className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2.5 rounded-xl transition active:scale-95 border-none disabled:opacity-60"
+                            disabled={passwordLoading}
+                            className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 rounded-xl transition active:scale-95 border-none disabled:opacity-60"
                         >
-                            {prefsSaving ? '...' : tx.savePreferences}
+                            {passwordLoading ? '...' : tx.updatePassword}
                         </button>
                     </form>
-                )}
-            </div>
 
-            <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg p-6">
-                <h2 className="text-lg font-bold text-gray-800 mb-1">{tx.usernameSection}</h2>
-                <p className="text-md text-gray-500 mb-4">@{user?.username}</p>
-            </div>
-
-            <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg p-6">
-                <h2 className="text-lg font-bold text-gray-800 mb-1">{tx.emailSection}</h2>
-                <p className="text-md text-gray-500 mb-4">{tx.currentEmail}: <span className="font-medium text-gray-700">{user?.email}</span></p>
-
-                {emailSuccess && <SuccessMsg msg={emailSuccess} />}
-                {emailError && <ErrorMsg msg={emailError} />}
-
-                {emailPending ? (
-                    <div className="bg-indigo-50 text-indigo-700 text-md px-4 py-3 rounded-xl">
-                        <p className="font-semibold">{tx.emailPending} {emailPending}</p>
-                        <p className="mt-1 text-indigo-500">{tx.emailPendingNote}</p>
-                    </div>
-                ) : (
-                    <form onSubmit={handleEmailSubmit} className="flex flex-col gap-4">
-                        <div>
-                            <label className="text-md font-medium text-gray-700 mb-1 block">{tx.newEmail}</label>
-                            <input
-                                type="email"
-                                value={emailForm.new_email}
-                                onChange={e => setEmailForm({ ...emailForm, new_email: e.target.value })}
-                                required
-                                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-md bg-gray-50 focus:outline-none focus:border-indigo-400 focus:bg-white transition"
-                            />
-                        </div>
-                        <div>
-                            <label className="text-md font-medium text-gray-700 mb-1 block">{tx.confirmWithPassword}</label>
-                            <input
-                                type="password"
-                                value={emailForm.password}
-                                onChange={e => setEmailForm({ ...emailForm, password: e.target.value })}
-                                required
-                                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-md bg-gray-50 focus:outline-none focus:border-indigo-400 focus:bg-white transition"
-                            />
-                        </div>
-                        <button
-                            type="submit"
-                            disabled={emailLoading}
-                            className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2.5 rounded-xl transition active:scale-95 border-none disabled:opacity-60"
-                        >
-                            {emailLoading ? '...' : tx.sendConfirmation}
-                        </button>
-                    </form>
-                )}
-            </div>
-
-            <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg p-6">
-                <h2 className="text-lg font-bold text-gray-800 mb-4">{tx.passwordSection}</h2>
-
-                {passwordSuccess && <SuccessMsg msg={passwordSuccess} />}
-                {passwordError && <ErrorMsg msg={passwordError} />}
-
-                <form onSubmit={handlePasswordSubmit} className="flex flex-col gap-4">
-                    <div>
-                        <label className="text-md font-medium text-gray-700 mb-1 block">{tx.currentPassword}</label>
-                        <div className="relative">
-                            <input
-                                type={showCurrent ? 'text' : 'password'}
-                                value={passwordForm.current_password}
-                                onChange={e => setPasswordForm({ ...passwordForm, current_password: e.target.value })}
-                                required
-                                className="w-full px-4 py-2.5 pr-10 border border-gray-200 rounded-xl text-md bg-gray-50 focus:outline-none focus:border-indigo-400 focus:bg-white transition"
-                            />
-                            <button type="button" onClick={() => setShowCurrent(!showCurrent)}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 bg-transparent border-none shadow-none p-0 text-xs text-gray-400">
-                                {showCurrent ? 'hide' : 'show'}
-                            </button>
-                        </div>
-                    </div>
-                    <div>
-                        <label className="text-md font-medium text-gray-700 mb-1 block">{tx.newPassword}</label>
-                        <div className="relative">
-                            <input
-                                type={showNew ? 'text' : 'password'}
-                                value={passwordForm.new_password}
-                                onChange={e => setPasswordForm({ ...passwordForm, new_password: e.target.value })}
-                                required
-                                className="w-full px-4 py-2.5 pr-10 border border-gray-200 rounded-xl text-md bg-gray-50 focus:outline-none focus:border-indigo-400 focus:bg-white transition"
-                            />
-                            <button type="button" onClick={() => setShowNew(!showNew)}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 bg-transparent border-none shadow-none p-0 text-xs text-gray-400">
-                                {showNew ? 'hide' : 'show'}
-                            </button>
-                        </div>
-                    </div>
-                    <div>
-                        <label className="text-md font-medium text-gray-700 mb-1 block">{tx.confirmPassword}</label>
-                        <div className="relative">
-                            <input
-                                type={showConfirm ? 'text' : 'password'}
-                                value={passwordForm.confirm_password}
-                                onChange={e => setPasswordForm({ ...passwordForm, confirm_password: e.target.value })}
-                                required
-                                className={`w-full px-4 py-2.5 pr-10 border rounded-xl text-md bg-gray-50 focus:outline-none focus:bg-white transition ${passwordForm.confirm_password
-                                        ? passwordsMatch
-                                            ? 'border-green-400 focus:border-green-400'
-                                            : 'border-red-400 focus:border-red-400'
-                                        : 'border-gray-200 focus:border-indigo-400'
-                                    }`}
-                            />
-                            <button type="button" onClick={() => setShowConfirm(!showConfirm)}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 bg-transparent border-none shadow-none p-0 text-xs text-gray-400">
-                                {showConfirm ? 'hide' : 'show'}
-                            </button>
-                        </div>
-                        {passwordForm.confirm_password && (
-                            <p className={`text-xs mt-1 ${passwordsMatch ? 'text-green-500' : 'text-red-500'}`}>
-                                {passwordsMatch ? tx.passwordMatch : tx.passwordNoMatch}
-                            </p>
-                        )}
-                    </div>
-                    <button
-                        type="submit"
-                        disabled={passwordLoading}
-                        className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2.5 rounded-xl transition active:scale-95 border-none disabled:opacity-60"
-                    >
-                        {passwordLoading ? '...' : tx.updatePassword}
-                    </button>
-                </form>
-
-                <p className="text-center text-xs text-gray-400 mt-4">
-                    <a href="/forgot-password" className="text-indigo-400 hover:underline">{tx.forgotPassword}</a>
-                </p>
+                    <p className="text-center text-xs text-neutral-500 mt-4">
+                        <a href="/forgot-password" className="text-orange-400 hover:underline">{tx.forgotPassword}</a>
+                    </p>
+                </div>
             </div>
         </div>
     )
