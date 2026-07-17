@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { changePassword, requestEmailChange } from '../../services/authService'
 import { getRecipes } from '../../services/recipeService'
 import { getMealPlans } from '../../services/mealPlanService'
-import { getAIPlans, getPreferences, updatePreferences } from '../../services/aiService'
+import { getPreferences, updatePreferences } from '../../services/aiService'
 import useLang from '../../hooks/useLang'
 
 const t = {
@@ -27,7 +28,6 @@ const t = {
         forgotPassword: 'Forgot your password?',
         summaryTitle: 'Your summary',
         recipesCreated: 'Recipes created',
-        aiPlansGenerated: 'AI plans generated',
         mealPlans: 'Meal plans',
         noMealPlans: 'No meal plans yet.',
         caloriesTotal: 'total calories',
@@ -63,7 +63,6 @@ const t = {
         forgotPassword: '¿Olvidaste tu contraseña?',
         summaryTitle: 'Tu resumen',
         recipesCreated: 'Recetas creadas',
-        aiPlansGenerated: 'Planes generados con IA',
         mealPlans: 'Planes de comida',
         noMealPlans: 'Aún no tienes planes de comida.',
         caloriesTotal: 'calorías totales',
@@ -91,26 +90,24 @@ const ErrorMsg = ({ msg }) => (
 const DIETARY_STYLES = ['vegan', 'vegetarian', 'keto', 'paleo', 'mediterranean']
 
 const Profile = () => {
+    const navigate = useNavigate()
     const { user, isPremium } = useAuth()
     const lang = useLang()
     const tx = t[lang]
 
     const [summaryLoading, setSummaryLoading] = useState(true)
     const [recipeCount, setRecipeCount] = useState(0)
-    const [aiPlanCount, setAiPlanCount] = useState(0)
     const [mealPlanSummaries, setMealPlanSummaries] = useState([])
 
     useEffect(() => {
         const fetchSummary = async () => {
             try {
-                const [recipes, mealPlans, aiPlans] = await Promise.all([
+                const [recipes, mealPlans] = await Promise.all([
                     getRecipes(lang),
                     getMealPlans(),
-                    isPremium ? getAIPlans() : Promise.resolve([]),
                 ])
 
                 setRecipeCount(recipes.length)
-                setAiPlanCount(aiPlans.length)
 
                 const summaries = mealPlans.map(plan => {
                     const totalCalories = plan.entries.reduce((sum, entry) => {
@@ -130,7 +127,7 @@ const Profile = () => {
             }
         }
         fetchSummary()
-    }, [lang, isPremium])
+    }, [lang])
 
     const [prefsLoading, setPrefsLoading] = useState(true)
     const [allergiesInput, setAllergiesInput] = useState('')
@@ -262,15 +259,9 @@ const Profile = () => {
                         </div>
                     ) : (
                         <>
-                            <div className="grid grid-cols-2 gap-3 mb-4">
-                                <div className="bg-orange-500/10 rounded-xl p-4 text-center">
-                                    <p className="text-2xl font-bold text-orange-400">{recipeCount}</p>
-                                    <p className="text-xs text-neutral-400 mt-1">{tx.recipesCreated}</p>
-                                </div>
-                                <div className="bg-amber-500/10 rounded-xl p-4 text-center">
-                                    <p className="text-2xl font-bold text-amber-400">{aiPlanCount}</p>
-                                    <p className="text-xs text-neutral-400 mt-1">{tx.aiPlansGenerated}</p>
-                                </div>
+                            <div className="bg-orange-500/10 rounded-xl p-4 text-center mb-4">
+                                <p className="text-2xl font-bold text-orange-400">{recipeCount}</p>
+                                <p className="text-xs text-neutral-400 mt-1">{tx.recipesCreated}</p>
                             </div>
 
                             <h3 className="text-md font-semibold text-neutral-300 mb-2">{tx.mealPlans}</h3>
@@ -279,14 +270,21 @@ const Profile = () => {
                             ) : (
                                 <div className="flex flex-col gap-2">
                                     {mealPlanSummaries.map(plan => (
-                                        <div key={plan.id} className="flex items-center justify-between bg-neutral-800/60 rounded-xl px-4 py-2.5">
+                                        <button
+                                            key={plan.id}
+                                            onClick={() => navigate(`/meal-planner/${plan.id}`)}
+                                            className="w-full flex items-center justify-between bg-neutral-800/60 hover:bg-neutral-800 rounded-xl px-4 py-2.5 transition border-none shadow-none text-left"
+                                        >
                                             <span className="text-md text-neutral-300">
                                                 {lang === 'es' ? 'Semana del' : 'Week of'} {plan.week_start_date}
                                             </span>
-                                            <span className="text-md font-semibold text-white">
-                                                {plan.totalCalories} {tx.caloriesTotal}
-                                            </span>
-                                        </div>
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-md font-semibold text-white">
+                                                    {plan.totalCalories} {tx.caloriesTotal}
+                                                </span>
+                                                <span className="text-neutral-500 text-sm">→</span>
+                                            </div>
+                                        </button>
                                     ))}
                                 </div>
                             )}
