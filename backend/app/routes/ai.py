@@ -6,6 +6,7 @@ from app.models import User, UserPreference, MealPlan, MealPlanEntry, Recipe, In
 from app.services.openai_service import generate_meal_plan
 from app.services.food_catalog_service import get_filtered_catalog
 from app.extensions import db, limiter
+from app.services.unsplash_service import get_recipe_image
 
 ai_bp = Blueprint("ai", __name__)
 
@@ -142,6 +143,7 @@ def save_plan():
                     user_id=user_id,
                     name=meal.get("name", "AI meal"),
                     name_es=meal.get("name") if lang == "es" else None,
+                    image_url=get_recipe_image(meal.get("name", "meal")),
                 )
                 db.session.add(recipe)
                 db.session.flush()
