@@ -6,5 +6,8 @@ app = create_app()
 
 with app.app_context():
     for r in STARTER_RECIPES:
-        url = get_recipe_image(r["name"])
-        print(f'    "{r["name"]}": "{url}",')
+        data = get_recipe_image(r["name"])
+        if data:
+            print(f'    "{r["name"]}": {{"url": "{data["url"]}", "photographer_name": "{data["photographer_name"]}", "photographer_url": "{data["photographer_url"]}"}},')
+        else:
+            print(f'    "{r["name"]}": None,')

@@ -6,7 +6,7 @@ from app.models import User, UserPreference, MealPlan, MealPlanEntry, Recipe, In
 from app.services.openai_service import generate_meal_plan
 from app.services.food_catalog_service import get_filtered_catalog
 from app.extensions import db, limiter
-from app.services.unsplash_service import get_recipe_image
+from app.services.unsplash_service import get_recipe_image, trigger_unsplash_download
 
 ai_bp = Blueprint("ai", __name__)
 
@@ -139,14 +139,21 @@ def save_plan():
     try:
         for day in plan_data.get("days", []):
             for meal in day.get("meals", []):
+                image_data = get_recipe_image(meal.get("name", "meal"))
+
                 recipe = Recipe(
                     user_id=user_id,
                     name=meal.get("name", "AI meal"),
                     name_es=meal.get("name") if lang == "es" else None,
-                    image_url=get_recipe_image(meal.get("name", "meal")),
+                    image_url=image_data["url"] if image_data else None,
+                    image_photographer_name=image_data["photographer_name"] if image_data else None,
+                    image_photographer_url=image_data["photographer_url"] if image_data else None,
                 )
                 db.session.add(recipe)
                 db.session.flush()
+
+                if image_data:
+                    trigger_unsplash_download(image_data["download_location"])
 
                 for ing in meal.get("ingredients", []):
                     ingredient = Ingredient(

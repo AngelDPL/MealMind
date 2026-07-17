@@ -4,7 +4,7 @@ from sqlalchemy import select
 from app.extensions import db
 from app.models.recipe import Recipe, Ingredient
 from app.models.food import Food
-from app.services.unsplash_service import get_recipe_image
+from app.services.unsplash_service import get_recipe_image, trigger_unsplash_download
 from app.models.meal_plan import MealPlanEntry
 
 recipes_bp = Blueprint("recipes", __name__)
@@ -30,14 +30,21 @@ def create_recipe():
     if not data or "name" not in data:
         return jsonify({"error": "Name is required"})
 
+    image_data = get_recipe_image(data["name"])
+
     recipe = Recipe(
         name=data["name"],
         description=data.get("description"),
         user_id=user_id,
-        image_url=get_recipe_image(data["name"]),
+        image_url=image_data["url"] if image_data else None,
+        image_photographer_name=image_data["photographer_name"] if image_data else None,
+        image_photographer_url=image_data["photographer_url"] if image_data else None,
     )
     db.session.add(recipe)
     db.session.flush()
+
+    if image_data:
+        trigger_unsplash_download(image_data["download_location"])
 
     for ing in data.get("ingredients", []):
         food = db.session.get(Food, ing["food_id"])
@@ -73,7 +80,12 @@ def update_recipe(recipe_id):
     recipe.description = data.get("description", recipe.description)
 
     if name_changed:
-        recipe.image_url = get_recipe_image(recipe.name)
+        image_data = get_recipe_image(recipe.name)
+        recipe.image_url = image_data["url"] if image_data else None
+        recipe.image_photographer_name = image_data["photographer_name"] if image_data else None
+        recipe.image_photographer_url = image_data["photographer_url"] if image_data else None
+        if image_data:
+            trigger_unsplash_download(image_data["download_location"])
 
     if "ingredients" in data:
         for ing in recipe.ingredients:
