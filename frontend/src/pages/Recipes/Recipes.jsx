@@ -216,7 +216,7 @@ const Recipes = () => {
                 )}
 
                 {showForm && (
-                    <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-lg p-6 mb-6">
+                    <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-lg p-6 mb-6 relative z-20">
                         <h2 className="text-lg font-bold text-gray-800 mb-4">
                             {lang === 'es' ? 'Nueva receta' : 'New recipe'}
                         </h2>
