@@ -16,6 +16,10 @@ const RecipeCard = ({ recipe, onDelete, lang }) => {
         onDelete(recipe.id)
     }
 
+    const photographerLink = recipe.image_photographer_url
+        ? recipe.image_photographer_url + '?utm_source=mealmind&utm_medium=referral'
+        : '#'
+
     return (
         <div className="bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden flex flex-col hover:-translate-y-1 hover:border-neutral-700 transition h-full">
 
@@ -32,6 +36,16 @@ const RecipeCard = ({ recipe, onDelete, lang }) => {
                 >
                     ✕
                 </button>
+                {recipe.image_url && recipe.image_photographer_name ? (
+                    <a
+                        href={photographerLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="absolute bottom-1.5 right-2 text-[10px] text-white/70 hover:text-white bg-black/40 px-1.5 py-0.5 rounded no-underline transition"
+                    >
+                        {lang === 'es' ? 'Foto de' : 'Photo by'} {recipe.image_photographer_name} / <span className="underline">Unsplash</span>
+                    </a>
+                ) : null}
             </div>
 
             <div className="p-4 flex flex-col gap-3 flex-1">
