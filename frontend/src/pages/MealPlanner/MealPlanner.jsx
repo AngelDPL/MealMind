@@ -41,9 +41,14 @@ const MealPlanner = () => {
     const days = getDaysFromDate(weekStart, lang)
     const mealLabels = MEAL_LABELS[lang]
 
-    useEffect(() => { fetchData() }, [])
+    useEffect(() => {
+        fetchData()
+        window.addEventListener('mealPlanCreated', fetchData)
+        return () => window.removeEventListener('mealPlanCreated', fetchData)
+    }, [])
 
     const fetchData = async () => {
+        setLoading(true)
         try {
             const [plansData, recipesData] = await Promise.all([getMealPlans(), getRecipes(lang)])
             setPlans(plansData)

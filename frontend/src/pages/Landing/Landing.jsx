@@ -59,6 +59,7 @@ const content = {
 
 const Landing = () => {
     const [visible, setVisible] = useState(false)
+    const [menuOpen, setMenuOpen] = useState(false)
     const lang = useLang()
     const t = content[lang]
 
@@ -82,25 +83,55 @@ const Landing = () => {
 
             <div className="relative z-10 flex flex-col min-h-screen">
 
-                <nav className="flex items-center justify-between px-6 py-5">
-                    <div className="flex items-center gap-2 mr-auto">
-                        <span className="text-2xl">🥗</span>
-                        <span className="text-white font-bold text-4xl tracking-tight">MealMind</span>
-                    </div>
-                    <div className="flex gap-3 items-center ml-auto">
-                        <Link
-                            to="/login"
-                            className="px-5 py-2 text-xl font-semibold text-white border border-neutral-700 rounded-xl hover:bg-neutral-800 transition whitespace-nowrap"
+                <nav className="relative">
+                    <div className="flex items-center justify-between px-6 py-5">
+                        <div className="flex items-center gap-2 mr-auto">
+                            <span className="text-2xl">🥗</span>
+                            <span className="text-white font-bold text-4xl tracking-tight">MealMind</span>
+                        </div>
+
+                        <div className="hidden sm:flex gap-3 items-center ml-auto">
+                            <Link
+                                to="/login"
+                                className="px-5 py-2 text-xl font-semibold text-white border border-neutral-700 rounded-xl hover:bg-neutral-800 transition whitespace-nowrap"
+                            >
+                                {t.signin}
+                            </Link>
+                            <Link
+                                to="/register"
+                                className="px-5 py-2 text-xl font-semibold text-white bg-orange-500 hover:bg-orange-600 rounded-xl transition whitespace-nowrap"
+                            >
+                                {t.cta}
+                            </Link>
+                        </div>
+
+                        <button
+                            onClick={() => setMenuOpen(!menuOpen)}
+                            className="sm:hidden text-white text-3xl bg-transparent border-none shadow-none p-1"
+                            aria-label="Menu"
                         >
-                            {t.signin}
-                        </Link>
-                        <Link
-                            to="/register"
-                            className="px-5 py-2 text-xl font-semibold text-white bg-orange-500 hover:bg-orange-600 rounded-xl transition whitespace-nowrap"
-                        >
-                            {t.cta}
-                        </Link>
+                            {menuOpen ? '✕' : '☰'}
+                        </button>
                     </div>
+
+                    {menuOpen && (
+                        <div className="sm:hidden bg-neutral-950 border-t border-neutral-800 flex flex-col px-6 py-4 gap-2">
+                            <Link
+                                to="/login"
+                                onClick={() => setMenuOpen(false)}
+                                className="px-5 py-2.5 text-lg font-semibold text-white border border-neutral-700 rounded-xl hover:bg-neutral-800 transition text-center"
+                            >
+                                {t.signin}
+                            </Link>
+                            <Link
+                                to="/register"
+                                onClick={() => setMenuOpen(false)}
+                                className="px-5 py-2.5 text-lg font-semibold text-white bg-orange-500 hover:bg-orange-600 rounded-xl transition text-center"
+                            >
+                                {t.cta}
+                            </Link>
+                        </div>
+                    )}
                 </nav>
 
                 <div

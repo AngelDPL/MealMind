@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import { generateMealPlan, saveAIPlan } from '../../services/aiService'
 import useLang from '../../hooks/useLang'
+import { useNavigate } from 'react-router-dom'
 
 const ALL_DAYS_EN = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
@@ -47,6 +48,8 @@ const UserBubble = ({ children }) => (
 )
 
 const BrokyChatModal = ({ onClose }) => {
+    const navigate = useNavigate()
+
     const [step, setStep] = useState(STEPS.SCOPE)
     const [history, setHistory] = useState([])
     const [selectedDays, setSelectedDays] = useState([])
@@ -202,6 +205,9 @@ const BrokyChatModal = ({ onClose }) => {
                 lang,
             })
             setSaved(true)
+            window.dispatchEvent(new CustomEvent('mealPlanCreated'))
+            onClose()
+            navigate('/meal-planner')
         } catch {
             setErrorMsg(lang === 'es' ? 'No se pudo guardar el plan.' : 'Could not save the plan.')
         } finally {
