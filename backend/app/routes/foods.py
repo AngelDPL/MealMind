@@ -7,12 +7,28 @@ from app.models.food import Food
 foods_bp = Blueprint("foods", __name__)
 
 
+def _serialize_search_result(food, search, lang):
+    data = food.to_dict(lang=lang)
+
+    if search:
+        search_lower = search.lower()
+        matched_es = food.name and search_lower in food.name.lower()
+        matched_en = food.name_en and search_lower in food.name_en.lower()
+
+        if matched_es and not matched_en:
+            data["name"] = food.name
+        elif matched_en and not matched_es:
+            data["name"] = food.name_en
+
+    return data
+
+
 @foods_bp.route("/", methods=["GET"])
 @jwt_required()
 def get_foods():
-    search = request.args.get("q","")
+    search = request.args.get("q", "")
     lang = request.args.get("lang", "es")
-    
+
     if search:
         stmt = select(Food).where(
             or_(
@@ -21,10 +37,10 @@ def get_foods():
             )
         ).limit(20)
     else:
-        stmt = select(Food).order_by(Food.name). limit(50)
-        
+        stmt = select(Food).order_by(Food.name).limit(50)
+
     foods = db.session.execute(stmt).scalars().all()
-    return jsonify([f.to_dict(lang=lang) for f in foods]), 200
+    return jsonify([_serialize_search_result(f, search, lang) for f in foods]), 200
 
 
 @foods_bp.route("/categories", methods=["GET"])
